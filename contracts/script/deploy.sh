@@ -18,3 +18,5 @@ echo Enter Your Private Key:
 read -s prvk
 
 forge create ./src/${contract}.sol:${contract} -i --rpc-url $rpc --constructor-args ${args} --legacy --private-key $prvk
+
+# manual: forge create ./src/Pod.sol:Pod --via-ir --rpc-url $RPC_URL --constructor-args "https://METADATAURI.com" --legacy --private-key $PRIVATE_KEY
