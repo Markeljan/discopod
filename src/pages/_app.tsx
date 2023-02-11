@@ -2,19 +2,27 @@ import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import "@rainbow-me/rainbowkit/styles.css";
 import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
-import { Chain, configureChains, createClient, mainnet, WagmiConfig } from "wagmi";
+import { Chain, configureChains, createClient, WagmiConfig } from "wagmi";
 import { publicProvider } from "wagmi/providers/public";
 
 const mantleTestnet: Chain = {
-  id: 50001,
+  id: 5001,
   name: "Mantle Testnet",
-  network: "testnet",
+  network: "Mantle Testnet",
   nativeCurrency: {
     name: "BitDAO",
     symbol: "BIT",
     decimals: 18,
   },
-  rpcUrls: { default: "https://rpc.testnet.mantle.xyz" } as any,
+  rpcUrls: {
+    default: {
+      http: ["https://rpc.testnet.mantle.xyz"],
+    },
+    public: {
+      http: ["https://rpc.testnet.mantle.xyz"],
+    },
+  },
+
   blockExplorers: {
     default: { name: "explorer.mantle", url: "https://explorer.testnet.mantle.xyz" },
   },
