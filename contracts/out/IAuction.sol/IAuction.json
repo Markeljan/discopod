@@ -1,0 +1,108 @@
+{
+  "abi": [],
+  "bytecode": {
+    "object": "0x",
+    "sourceMap": "",
+    "linkReferences": {}
+  },
+  "deployedBytecode": {
+    "object": "0x",
+    "sourceMap": "",
+    "linkReferences": {}
+  },
+  "methodIdentifiers": {},
+  "rawMetadata": "{\"compiler\":{\"version\":\"0.8.17+commit.8df45f5f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"src/interfaces/IAuction.sol\":\"IAuction\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[\":ds-test/=lib/forge-std/lib/ds-test/src/\",\":forge-std/=lib/forge-std/src/\"]},\"sources\":{\"src/interfaces/IAuction.sol\":{\"keccak256\":\"0x247bb41f23240ca4340d04284d515429ff843608b3082b3974fcabef8013179c\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://37add8a262621844a268df7dbc6b88ba7f6f034b17300cdaf81dc3c241a75c75\",\"dweb:/ipfs/QmcAbmiy7FcWBzAiQ8TN4fzoweg8Ejw5j8y7eZaNwESncC\"]}},\"version\":1}",
+  "metadata": {
+    "compiler": {
+      "version": "0.8.17+commit.8df45f5f"
+    },
+    "language": "Solidity",
+    "output": {
+      "abi": [],
+      "devdoc": {
+        "kind": "dev",
+        "methods": {},
+        "version": 1
+      },
+      "userdoc": {
+        "kind": "user",
+        "methods": {},
+        "version": 1
+      }
+    },
+    "settings": {
+      "remappings": [
+        ":ds-test/=lib/forge-std/lib/ds-test/src/",
+        ":forge-std/=lib/forge-std/src/"
+      ],
+      "optimizer": {
+        "enabled": true,
+        "runs": 200
+      },
+      "metadata": {
+        "bytecodeHash": "ipfs"
+      },
+      "compilationTarget": {
+        "src/interfaces/IAuction.sol": "IAuction"
+      },
+      "libraries": {}
+    },
+    "sources": {
+      "src/interfaces/IAuction.sol": {
+        "keccak256": "0x247bb41f23240ca4340d04284d515429ff843608b3082b3974fcabef8013179c",
+        "urls": [
+          "bzz-raw://37add8a262621844a268df7dbc6b88ba7f6f034b17300cdaf81dc3c241a75c75",
+          "dweb:/ipfs/QmcAbmiy7FcWBzAiQ8TN4fzoweg8Ejw5j8y7eZaNwESncC"
+        ],
+        "license": "MIT"
+      }
+    },
+    "version": 1
+  },
+  "ast": {
+    "absolutePath": "src/interfaces/IAuction.sol",
+    "id": 26798,
+    "exportedSymbols": {
+      "IAuction": [
+        26797
+      ]
+    },
+    "nodeType": "SourceUnit",
+    "src": "32:53:21",
+    "nodes": [
+      {
+        "id": 26796,
+        "nodeType": "PragmaDirective",
+        "src": "32:24:21",
+        "nodes": [],
+        "literals": [
+          "solidity",
+          "^",
+          "0.8",
+          ".13"
+        ]
+      },
+      {
+        "id": 26797,
+        "nodeType": "ContractDefinition",
+        "src": "58:27:21",
+        "nodes": [],
+        "abstract": false,
+        "baseContracts": [],
+        "canonicalName": "IAuction",
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "fullyImplemented": true,
+        "linearizedBaseContracts": [
+          26797
+        ],
+        "name": "IAuction",
+        "nameLocation": "68:8:21",
+        "scope": 26798,
+        "usedErrors": []
+      }
+    ],
+    "license": "MIT"
+  },
+  "id": 21
+}

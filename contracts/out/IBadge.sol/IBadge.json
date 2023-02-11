@@ -1,0 +1,108 @@
+{
+  "abi": [],
+  "bytecode": {
+    "object": "0x",
+    "sourceMap": "",
+    "linkReferences": {}
+  },
+  "deployedBytecode": {
+    "object": "0x",
+    "sourceMap": "",
+    "linkReferences": {}
+  },
+  "methodIdentifiers": {},
+  "rawMetadata": "{\"compiler\":{\"version\":\"0.8.17+commit.8df45f5f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"src/interfaces/IBadge.sol\":\"IBadge\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[\":ds-test/=lib/forge-std/lib/ds-test/src/\",\":forge-std/=lib/forge-std/src/\"]},\"sources\":{\"src/interfaces/IBadge.sol\":{\"keccak256\":\"0x7f81567d1317ad663c15801cc1816c062f529c0a61480cc7fd1a67f1067e65f0\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://8b12c1752316c7507dc289e60563d65d3de13a0127bd62bdad10bf11d50ce06c\",\"dweb:/ipfs/QmVCPGSP2FEMRXvZgTKC4Q9PnbiEykTaMdZ6dDYC9fgFrn\"]}},\"version\":1}",
+  "metadata": {
+    "compiler": {
+      "version": "0.8.17+commit.8df45f5f"
+    },
+    "language": "Solidity",
+    "output": {
+      "abi": [],
+      "devdoc": {
+        "kind": "dev",
+        "methods": {},
+        "version": 1
+      },
+      "userdoc": {
+        "kind": "user",
+        "methods": {},
+        "version": 1
+      }
+    },
+    "settings": {
+      "remappings": [
+        ":ds-test/=lib/forge-std/lib/ds-test/src/",
+        ":forge-std/=lib/forge-std/src/"
+      ],
+      "optimizer": {
+        "enabled": true,
+        "runs": 200
+      },
+      "metadata": {
+        "bytecodeHash": "ipfs"
+      },
+      "compilationTarget": {
+        "src/interfaces/IBadge.sol": "IBadge"
+      },
+      "libraries": {}
+    },
+    "sources": {
+      "src/interfaces/IBadge.sol": {
+        "keccak256": "0x7f81567d1317ad663c15801cc1816c062f529c0a61480cc7fd1a67f1067e65f0",
+        "urls": [
+          "bzz-raw://8b12c1752316c7507dc289e60563d65d3de13a0127bd62bdad10bf11d50ce06c",
+          "dweb:/ipfs/QmVCPGSP2FEMRXvZgTKC4Q9PnbiEykTaMdZ6dDYC9fgFrn"
+        ],
+        "license": "MIT"
+      }
+    },
+    "version": 1
+  },
+  "ast": {
+    "absolutePath": "src/interfaces/IBadge.sol",
+    "id": 26801,
+    "exportedSymbols": {
+      "IBadge": [
+        26800
+      ]
+    },
+    "nodeType": "SourceUnit",
+    "src": "32:51:22",
+    "nodes": [
+      {
+        "id": 26799,
+        "nodeType": "PragmaDirective",
+        "src": "32:24:22",
+        "nodes": [],
+        "literals": [
+          "solidity",
+          "^",
+          "0.8",
+          ".13"
+        ]
+      },
+      {
+        "id": 26800,
+        "nodeType": "ContractDefinition",
+        "src": "58:25:22",
+        "nodes": [],
+        "abstract": false,
+        "baseContracts": [],
+        "canonicalName": "IBadge",
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "fullyImplemented": true,
+        "linearizedBaseContracts": [
+          26800
+        ],
+        "name": "IBadge",
+        "nameLocation": "68:6:22",
+        "scope": 26801,
+        "usedErrors": []
+      }
+    ],
+    "license": "MIT"
+  },
+  "id": 22
+}

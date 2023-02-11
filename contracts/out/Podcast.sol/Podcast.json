@@ -1,0 +1,596 @@
+{
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "_podcastName",
+          "type": "string"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_podcastId",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "inputs": [],
+      "name": "getPodcastId",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getPodcastName",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "bytecode": {
+    "object": "0x6080604052346101f75761041080380380610019816101fc565b9283398101906040818303126101f75780516001600160401b03908181116101f757820191601f908482850112156101f7578351908382116101cd57602091601f199561006b848887850116016101fc565b978289528483830101116101f7579083929160005b8281106101e35750508260009189010152015160005584519283116101cd5760019384548581811c911680156101c3575b838210146101ad57838111610167575b50819284116001146101085750508192936000926100fd575b5050600019600383901b1c191690821b1790555b6040516101ee90816102228239f35b0151905038806100da565b6000858152828120918516969193925b87821061015057505083859610610137575b505050811b0190556100ee565b015160001960f88460031b161c1916905538808061012a565b808785968294968601518155019501930190610118565b85600052826000208480870160051c8201928588106101a4575b0160051c019086905b8281106101985750506100c1565b6000815501869061018a565b92508192610181565b634e487b7160e01b600052602260045260246000fd5b90607f16906100b1565b634e487b7160e01b600052604160045260246000fd5b8181018501518a8201860152859401610080565b600080fd5b6040519190601f01601f191682016001600160401b038111838210176101cd5760405256fe60806040818152600436101561001457600080fd5b600091823560e01c908163e2226c3414610057575063eb8c8d901461003857600080fd5b34610053578160031936011261005357602091549051908152f35b5080fd5b838334610053578160031936011261005357819260019283549485851c948087169687156101ae575b602097888810811461019a57878652889291811561017b5750600114610126575b505082939450601f801994859203011682019482861067ffffffffffffffff8711176101125785929391838652818452845191828186015281955b8387106100fa5750508394508582601f949501015201168101030190f35b868101820151898801890152958101958895506100dc565b634e487b7160e01b82526041600452602482fd5b80845290915082907fb10e2d527612073b26eecdfd717e6a320cf44b4afac2b0732d9fcbe2b7fa0cf65b878310610168575094955085945083010185876100a1565b8054868401850152918301918101610150565b60ff191683870152509495869550151560051b840101905085876100a1565b634e487b7160e01b85526022600452602485fd5b95607f169561008056fea2646970667358221220d0446086b221305fcf98c3e8cac259cb820e0ae921b6e259efc3dcb880e848ae64736f6c63430008110033",
+    "sourceMap": "58:399:21:-:0;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;-1:-1:-1;;;;;58:399:21;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;-1:-1:-1;58:399:21;;;;;;;;;-1:-1:-1;58:399:21;;;;;;;-1:-1:-1;58:399:21;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;58:399:21;;;;-1:-1:-1;;;;58:399:21;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;58:399:21;;;;;-1:-1:-1;58:399:21;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;58:399:21;;-1:-1:-1;58:399:21;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;58:399:21;;;;;;;;;;;;;;;;;;-1:-1:-1;58:399:21;;;;;-1:-1:-1;58:399:21;;;;;;;;;;;;-1:-1:-1;58:399:21;;;;;-1:-1:-1;58:399:21;;;;;;;;;;;;;;;;;;;;-1:-1:-1;58:399:21;;;;;;;;;-1:-1:-1;;58:399:21;;;-1:-1:-1;;;;;58:399:21;;;;;;;;;;:::o",
+    "linkReferences": {}
+  },
+  "deployedBytecode": {
+    "object": "0x60806040818152600436101561001457600080fd5b600091823560e01c908163e2226c3414610057575063eb8c8d901461003857600080fd5b34610053578160031936011261005357602091549051908152f35b5080fd5b838334610053578160031936011261005357819260019283549485851c948087169687156101ae575b602097888810811461019a57878652889291811561017b5750600114610126575b505082939450601f801994859203011682019482861067ffffffffffffffff8711176101125785929391838652818452845191828186015281955b8387106100fa5750508394508582601f949501015201168101030190f35b868101820151898801890152958101958895506100dc565b634e487b7160e01b82526041600452602482fd5b80845290915082907fb10e2d527612073b26eecdfd717e6a320cf44b4afac2b0732d9fcbe2b7fa0cf65b878310610168575094955085945083010185876100a1565b8054868401850152918301918101610150565b60ff191683870152509495869550151560051b840101905085876100a1565b634e487b7160e01b85526022600452602485fd5b95607f169561008056fea2646970667358221220d0446086b221305fcf98c3e8cac259cb820e0ae921b6e259efc3dcb880e848ae64736f6c63430008110033",
+    "sourceMap": "58:399:21:-:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;437:11;;58:399;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;58:399:21;;;-1:-1:-1;;;58:399:21;;;;;;;;;;;;;;-1:-1:-1;58:399:21;;;;;;;;;-1:-1:-1;58:399:21;;-1:-1:-1;58:399:21;;-1:-1:-1;58:399:21;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;;58:399:21;;;;;-1:-1:-1;58:399:21;;;;-1:-1:-1;58:399:21;;;;;;;;-1:-1:-1;58:399:21;;;;;-1:-1:-1;;;58:399:21;;;;;;;;;;;;;;",
+    "linkReferences": {}
+  },
+  "methodIdentifiers": {
+    "getPodcastId()": "eb8c8d90",
+    "getPodcastName()": "e2226c34"
+  },
+  "rawMetadata": "{\"compiler\":{\"version\":\"0.8.17+commit.8df45f5f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"string\",\"name\":\"_podcastName\",\"type\":\"string\"},{\"internalType\":\"uint256\",\"name\":\"_podcastId\",\"type\":\"uint256\"}],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"inputs\":[],\"name\":\"getPodcastId\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getPodcastName\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"src/Podcast.sol\":\"Podcast\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[\":ds-test/=lib/forge-std/lib/ds-test/src/\",\":forge-std/=lib/forge-std/src/\",\":solmate/=lib/solmate/src/\"],\"viaIR\":true},\"sources\":{\"src/Podcast.sol\":{\"keccak256\":\"0xd0a4347a2e0b731eeb2f9988668f07b2ad101cbb3fd8eaf61401c890dcc78227\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://670eff2dd909ab4604c244bbb925fb391d6e553c8504888044db9e6f5da24b66\",\"dweb:/ipfs/Qme6FWvs9KogTZVe8tS7Mgg4vf89S6Gi1jR5w4LYpebuGR\"]}},\"version\":1}",
+  "metadata": {
+    "compiler": {
+      "version": "0.8.17+commit.8df45f5f"
+    },
+    "language": "Solidity",
+    "output": {
+      "abi": [
+        {
+          "inputs": [
+            {
+              "internalType": "string",
+              "name": "_podcastName",
+              "type": "string"
+            },
+            {
+              "internalType": "uint256",
+              "name": "_podcastId",
+              "type": "uint256"
+            }
+          ],
+          "stateMutability": "nonpayable",
+          "type": "constructor"
+        },
+        {
+          "inputs": [],
+          "stateMutability": "view",
+          "type": "function",
+          "name": "getPodcastId",
+          "outputs": [
+            {
+              "internalType": "uint256",
+              "name": "",
+              "type": "uint256"
+            }
+          ]
+        },
+        {
+          "inputs": [],
+          "stateMutability": "view",
+          "type": "function",
+          "name": "getPodcastName",
+          "outputs": [
+            {
+              "internalType": "string",
+              "name": "",
+              "type": "string"
+            }
+          ]
+        }
+      ],
+      "devdoc": {
+        "kind": "dev",
+        "methods": {},
+        "version": 1
+      },
+      "userdoc": {
+        "kind": "user",
+        "methods": {},
+        "version": 1
+      }
+    },
+    "settings": {
+      "remappings": [
+        ":ds-test/=lib/forge-std/lib/ds-test/src/",
+        ":forge-std/=lib/forge-std/src/",
+        ":solmate/=lib/solmate/src/"
+      ],
+      "optimizer": {
+        "enabled": true,
+        "runs": 200
+      },
+      "metadata": {
+        "bytecodeHash": "ipfs"
+      },
+      "compilationTarget": {
+        "src/Podcast.sol": "Podcast"
+      },
+      "libraries": {},
+      "viaIR": true
+    },
+    "sources": {
+      "src/Podcast.sol": {
+        "keccak256": "0xd0a4347a2e0b731eeb2f9988668f07b2ad101cbb3fd8eaf61401c890dcc78227",
+        "urls": [
+          "bzz-raw://670eff2dd909ab4604c244bbb925fb391d6e553c8504888044db9e6f5da24b66",
+          "dweb:/ipfs/Qme6FWvs9KogTZVe8tS7Mgg4vf89S6Gi1jR5w4LYpebuGR"
+        ],
+        "license": "MIT"
+      }
+    },
+    "version": 1
+  },
+  "ast": {
+    "absolutePath": "src/Podcast.sol",
+    "id": 27960,
+    "exportedSymbols": {
+      "Podcast": [
+        27959
+      ]
+    },
+    "nodeType": "SourceUnit",
+    "src": "32:425:21",
+    "nodes": [
+      {
+        "id": 27922,
+        "nodeType": "PragmaDirective",
+        "src": "32:24:21",
+        "nodes": [],
+        "literals": [
+          "solidity",
+          "^",
+          "0.8",
+          ".13"
+        ]
+      },
+      {
+        "id": 27959,
+        "nodeType": "ContractDefinition",
+        "src": "58:399:21",
+        "nodes": [
+          {
+            "id": 27924,
+            "nodeType": "VariableDeclaration",
+            "src": "81:17:21",
+            "nodes": [],
+            "constant": false,
+            "mutability": "mutable",
+            "name": "podcastId",
+            "nameLocation": "89:9:21",
+            "scope": 27959,
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_uint256",
+              "typeString": "uint256"
+            },
+            "typeName": {
+              "id": 27923,
+              "name": "uint256",
+              "nodeType": "ElementaryTypeName",
+              "src": "81:7:21",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint256",
+                "typeString": "uint256"
+              }
+            },
+            "visibility": "internal"
+          },
+          {
+            "id": 27926,
+            "nodeType": "VariableDeclaration",
+            "src": "104:18:21",
+            "nodes": [],
+            "constant": false,
+            "mutability": "mutable",
+            "name": "podcastName",
+            "nameLocation": "111:11:21",
+            "scope": 27959,
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_string_storage",
+              "typeString": "string"
+            },
+            "typeName": {
+              "id": 27925,
+              "name": "string",
+              "nodeType": "ElementaryTypeName",
+              "src": "104:6:21",
+              "typeDescriptions": {
+                "typeIdentifier": "t_string_storage_ptr",
+                "typeString": "string"
+              }
+            },
+            "visibility": "internal"
+          },
+          {
+            "id": 27942,
+            "nodeType": "FunctionDefinition",
+            "src": "128:134:21",
+            "nodes": [],
+            "body": {
+              "id": 27941,
+              "nodeType": "Block",
+              "src": "187:75:21",
+              "nodes": [],
+              "statements": [
+                {
+                  "expression": {
+                    "id": 27935,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "id": 27933,
+                      "name": "podcastId",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 27924,
+                      "src": "197:9:21",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "id": 27934,
+                      "name": "_podcastId",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 27930,
+                      "src": "209:10:21",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "src": "197:22:21",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "id": 27936,
+                  "nodeType": "ExpressionStatement",
+                  "src": "197:22:21"
+                },
+                {
+                  "expression": {
+                    "id": 27939,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "id": 27937,
+                      "name": "podcastName",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 27926,
+                      "src": "229:11:21",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_string_storage",
+                        "typeString": "string storage ref"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "id": 27938,
+                      "name": "_podcastName",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 27928,
+                      "src": "243:12:21",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_string_memory_ptr",
+                        "typeString": "string memory"
+                      }
+                    },
+                    "src": "229:26:21",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage",
+                      "typeString": "string storage ref"
+                    }
+                  },
+                  "id": 27940,
+                  "nodeType": "ExpressionStatement",
+                  "src": "229:26:21"
+                }
+              ]
+            },
+            "implemented": true,
+            "kind": "constructor",
+            "modifiers": [],
+            "name": "",
+            "nameLocation": "-1:-1:-1",
+            "parameters": {
+              "id": 27931,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 27928,
+                  "mutability": "mutable",
+                  "name": "_podcastName",
+                  "nameLocation": "154:12:21",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 27942,
+                  "src": "140:26:21",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 27927,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "140:6:21",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 27930,
+                  "mutability": "mutable",
+                  "name": "_podcastId",
+                  "nameLocation": "176:10:21",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 27942,
+                  "src": "168:18:21",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 27929,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "168:7:21",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "139:48:21"
+            },
+            "returnParameters": {
+              "id": 27932,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "187:0:21"
+            },
+            "scope": 27959,
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "public"
+          },
+          {
+            "id": 27950,
+            "nodeType": "FunctionDefinition",
+            "src": "268:86:21",
+            "nodes": [],
+            "body": {
+              "id": 27949,
+              "nodeType": "Block",
+              "src": "321:33:21",
+              "nodes": [],
+              "statements": [
+                {
+                  "expression": {
+                    "id": 27947,
+                    "name": "podcastId",
+                    "nodeType": "Identifier",
+                    "overloadedDeclarations": [],
+                    "referencedDeclaration": 27924,
+                    "src": "338:9:21",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "functionReturnParameters": 27946,
+                  "id": 27948,
+                  "nodeType": "Return",
+                  "src": "331:16:21"
+                }
+              ]
+            },
+            "functionSelector": "eb8c8d90",
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getPodcastId",
+            "nameLocation": "277:12:21",
+            "parameters": {
+              "id": 27943,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "289:2:21"
+            },
+            "returnParameters": {
+              "id": 27946,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 27945,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 27950,
+                  "src": "313:7:21",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 27944,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "313:7:21",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "312:9:21"
+            },
+            "scope": 27959,
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "public"
+          },
+          {
+            "id": 27958,
+            "nodeType": "FunctionDefinition",
+            "src": "359:96:21",
+            "nodes": [],
+            "body": {
+              "id": 27957,
+              "nodeType": "Block",
+              "src": "420:35:21",
+              "nodes": [],
+              "statements": [
+                {
+                  "expression": {
+                    "id": 27955,
+                    "name": "podcastName",
+                    "nodeType": "Identifier",
+                    "overloadedDeclarations": [],
+                    "referencedDeclaration": 27926,
+                    "src": "437:11:21",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage",
+                      "typeString": "string storage ref"
+                    }
+                  },
+                  "functionReturnParameters": 27954,
+                  "id": 27956,
+                  "nodeType": "Return",
+                  "src": "430:18:21"
+                }
+              ]
+            },
+            "functionSelector": "e2226c34",
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getPodcastName",
+            "nameLocation": "368:14:21",
+            "parameters": {
+              "id": 27951,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "382:2:21"
+            },
+            "returnParameters": {
+              "id": 27954,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 27953,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 27958,
+                  "src": "406:13:21",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 27952,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "406:6:21",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "405:15:21"
+            },
+            "scope": 27959,
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "public"
+          }
+        ],
+        "abstract": false,
+        "baseContracts": [],
+        "canonicalName": "Podcast",
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "fullyImplemented": true,
+        "linearizedBaseContracts": [
+          27959
+        ],
+        "name": "Podcast",
+        "nameLocation": "67:7:21",
+        "scope": 27960,
+        "usedErrors": []
+      }
+    ],
+    "license": "MIT"
+  },
+  "id": 21
+}

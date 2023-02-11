@@ -1,0 +1,110 @@
+{
+  "abi": [],
+  "bytecode": {
+    "object": "0x60808060405234601357603a908160198239f35b600080fdfe600080fdfea26469706673582212208e06fc0529fec445dd55a768066d90ce24d738292dc39679b49599d0cfdcc4eb64736f6c63430008110033",
+    "sourceMap": "58:19:19:-:0;;;;;;;;;;;;;;;;;",
+    "linkReferences": {}
+  },
+  "deployedBytecode": {
+    "object": "0x600080fdfea26469706673582212208e06fc0529fec445dd55a768066d90ce24d738292dc39679b49599d0cfdcc4eb64736f6c63430008110033",
+    "sourceMap": "58:19:19:-:0;;",
+    "linkReferences": {}
+  },
+  "methodIdentifiers": {},
+  "rawMetadata": "{\"compiler\":{\"version\":\"0.8.17+commit.8df45f5f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"src/Badge.sol\":\"Badge\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[\":ds-test/=lib/forge-std/lib/ds-test/src/\",\":forge-std/=lib/forge-std/src/\",\":solmate/=lib/solmate/src/\"],\"viaIR\":true},\"sources\":{\"src/Badge.sol\":{\"keccak256\":\"0xcd923ab8206a8a6f3e75a2f2080894a9232945c1dea0efb79ae3c2e0b2093205\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://160b4525f11dfba796dc268bc0020cb5eae5b47c3451bc0e1d4a1cf0fba36911\",\"dweb:/ipfs/QmXUo8Rk8ekojkxQbzKWdnGL8q66uVtAmSLRdt5X84idB3\"]}},\"version\":1}",
+  "metadata": {
+    "compiler": {
+      "version": "0.8.17+commit.8df45f5f"
+    },
+    "language": "Solidity",
+    "output": {
+      "abi": [],
+      "devdoc": {
+        "kind": "dev",
+        "methods": {},
+        "version": 1
+      },
+      "userdoc": {
+        "kind": "user",
+        "methods": {},
+        "version": 1
+      }
+    },
+    "settings": {
+      "remappings": [
+        ":ds-test/=lib/forge-std/lib/ds-test/src/",
+        ":forge-std/=lib/forge-std/src/",
+        ":solmate/=lib/solmate/src/"
+      ],
+      "optimizer": {
+        "enabled": true,
+        "runs": 200
+      },
+      "metadata": {
+        "bytecodeHash": "ipfs"
+      },
+      "compilationTarget": {
+        "src/Badge.sol": "Badge"
+      },
+      "libraries": {},
+      "viaIR": true
+    },
+    "sources": {
+      "src/Badge.sol": {
+        "keccak256": "0xcd923ab8206a8a6f3e75a2f2080894a9232945c1dea0efb79ae3c2e0b2093205",
+        "urls": [
+          "bzz-raw://160b4525f11dfba796dc268bc0020cb5eae5b47c3451bc0e1d4a1cf0fba36911",
+          "dweb:/ipfs/QmXUo8Rk8ekojkxQbzKWdnGL8q66uVtAmSLRdt5X84idB3"
+        ],
+        "license": "MIT"
+      }
+    },
+    "version": 1
+  },
+  "ast": {
+    "absolutePath": "src/Badge.sol",
+    "id": 27305,
+    "exportedSymbols": {
+      "Badge": [
+        27304
+      ]
+    },
+    "nodeType": "SourceUnit",
+    "src": "32:46:19",
+    "nodes": [
+      {
+        "id": 27303,
+        "nodeType": "PragmaDirective",
+        "src": "32:24:19",
+        "nodes": [],
+        "literals": [
+          "solidity",
+          "^",
+          "0.8",
+          ".13"
+        ]
+      },
+      {
+        "id": 27304,
+        "nodeType": "ContractDefinition",
+        "src": "58:19:19",
+        "nodes": [],
+        "abstract": false,
+        "baseContracts": [],
+        "canonicalName": "Badge",
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "fullyImplemented": true,
+        "linearizedBaseContracts": [
+          27304
+        ],
+        "name": "Badge",
+        "nameLocation": "67:5:19",
+        "scope": 27305,
+        "usedErrors": []
+      }
+    ],
+    "license": "MIT"
+  },
+  "id": 19
+}
