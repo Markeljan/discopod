@@ -2,28 +2,26 @@ import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import "@rainbow-me/rainbowkit/styles.css";
 import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
-import { Chain, configureChains, createClient, WagmiConfig } from "wagmi";
-import { mainnet, optimismGoerli } from "wagmi/chains";
+import { Chain, configureChains, createClient, mainnet, WagmiConfig } from "wagmi";
 import { publicProvider } from "wagmi/providers/public";
 
-const mantleTestnet = {
-  chainId: 5001,
-  chainName: "Mantle Testnet",
+const mantleTestnet: Chain = {
+  id: 50001,
+  name: "Mantle Testnet",
+  network: "testnet",
   nativeCurrency: {
     name: "BitDAO",
     symbol: "BIT",
     decimals: 18,
   },
-  rpcUrls: {
-    default: "https://mantle-testnet.bitdao.io",
-  } as any,
-
-  blockExplorerUrls: ["https://explorer.testnet.mantle.xyz"],
-  iconUrls: ["https://bitdao.io/favicon.ico"],
-  isTestnet: true,
+  rpcUrls: { default: "https://rpc.testnet.mantle.xyz" } as any,
+  blockExplorers: {
+    default: { name: "explorer.mantle", url: "https://explorer.testnet.mantle.xyz" },
+  },
+  testnet: true,
 };
 
-const { chains, provider } = configureChains([optimismGoerli], [publicProvider()]);
+const { chains, provider } = configureChains([mantleTestnet], [publicProvider()]);
 
 const { connectors } = getDefaultWallets({
   appName: "Podchain",

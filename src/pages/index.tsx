@@ -13,8 +13,8 @@ export default function Home() {
         <div className="flex-col justify-center text-center p-20 bg-primaryDark rounded-lg shadow-lg">
           <h1 className="text-4xl font-bold text-white">Welcome to Podchain 🎧</h1>
           <p className="text-4xl font-bold text-white">
-            Podchain is a podcasting platform built on Mantle. Become a creator and start your own
-            Podchain to earn rewards, connect with your audience, and give to public goods.
+            Become a creator and start your own Podchain to earn rewards, connect with your
+            audience, and give to public goods.
           </p>
         </div>
       </div>
