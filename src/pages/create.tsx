@@ -2,6 +2,7 @@ import { useState } from "react";
 import { NFTStorage, File } from "nft.storage";
 import { useContractRead, useContractWrite, usePrepareContractWrite } from "wagmi";
 import { PODCHAIN_ADDRESS, PODCHAIN_ABI } from "constants/contractData";
+import Navbar from "components/Navbar";
 
 const NFT_STORAGE_TOKEN =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDc1NzI4OERlZTM2QUY3N0FjZjZEQ0YxQjBiMjY4QzQ2YjZjMGZhNzMiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY3NjE0NTA1OTA5NCwibmFtZSI6InBvZGNoYWluIn0.XjX9uNYAm-sQ4esJlTmgpK65zZ4LpyERfnsd2peOaWc";
@@ -62,6 +63,7 @@ export default function Create() {
 
   return (
     <div className="h-full min-h-screen bg-primary">
+      <Navbar />
       <div
         className="flex flex-col max-w-2xl w-full mx-auto
      p-6"
