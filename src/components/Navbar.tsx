@@ -8,11 +8,11 @@ export default function Navbar() {
     <div>
       <nav className="flex-row">
         <ul className="flex justify-center items-center">
-          <div className="w-1/2 flex justify-start items-center p-4 gap-4">
+          <div className="w-3/4 flex justify-center items-center p-4 gap-4">
             <li className="mx-3">
               <a
                 href="/"
-                className={`text-primary hover:text-white font-bold ${
+                className={`text-primary-dark hover:text-white font-bold ${
                   router.pathname === "/" ? "active" : ""
                 }`}
                 onClick={(e) => {
@@ -26,7 +26,7 @@ export default function Navbar() {
             <li className="mx-3">
               <a
                 href="/create"
-                className={`text-primary hover:text-white font-bold ${
+                className={`text-primary-dark hover:text-white font-bold ${
                   router.pathname === "/create" ? "active" : ""
                 }`}
                 onClick={(e) => {
@@ -39,7 +39,7 @@ export default function Navbar() {
             </li>
           </div>
 
-          <li className="w-1/2 flex justify-end items-center p-4">
+          <li className="w-1/4 flex justify-end items-center p-4">
             <ConnectButton />
           </li>
         </ul>
