@@ -95,9 +95,9 @@ export default function Create() {
               onChange={(e) => setTopic(e.target.value)}
               className="w-full p-2 border border-gray-400 rounded-lg"
             >
-              <option value="mario">Public Goods</option>
-              <option value="mario">Web3 PGF</option>
-              <option value="yoshi">Carbon Offsets</option>
+              <option value="Public Goods">Public Goods</option>
+              <option value="Web3 PGF">Web3 PGF</option>
+              <option value="Carbon Offsets">Carbon Offsets</option>
             </select>
           </div>
 

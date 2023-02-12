@@ -31,6 +31,7 @@ const Pod = (props: any) => {
   const router = useRouter();
 
   const { podNormal: pod } = props;
+  console.log("pod", pod);
   const { data, isError, isLoading } = useContractRead({
     address: DISCOPOD_ADDRESS,
     abi: DISCOPOD_ABI,
@@ -48,7 +49,7 @@ const Pod = (props: any) => {
 
   console.log(data);
   useEffect(() => {
-    if (podcast) {
+    if (podcast?.name) {
       console.log(podcast);
       // create an object with the podcast data
       console.log(podcast.name);
@@ -61,10 +62,23 @@ const Pod = (props: any) => {
       <Navbar />
       <div className="flex flex-col max-w-6xl w-full mx-auto p-6">
         <div className="bg-white p-6 rounded-lg shadow-md">
-          <h2 className="text-2xl font-bold mb-6">Pod: {pod}</h2>
-          <p>{podcastData?.name}</p>
+          {!podcastData?.name && (
+            <>
+              <h2 className="text-2xl font-bold mb-6">
+                Podcast Does not exist... Yet! Make it yourself!
+              </h2>
+              <button
+                className=" bg-blue-500 text-white p-2 rounded-lg shadow-md"
+                onClick={() => router.push("/create")}
+              >
+                Create Podcast
+              </button>
+            </>
+          )}
+          <h2 className="text-2xl font-bold mb-6">{podcastData?.name?.toUpperCase()}</h2>
           <p>{podcastData?.description}</p>
           <p>{podcastData?.topic}</p>
+          <p>{podcastData?.host}</p>
         </div>
       </div>
     </div>
