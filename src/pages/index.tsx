@@ -8,7 +8,7 @@ export default function Home() {
         <div className="flex flex-row justify-between h-80">
           <div className="flex flex-col gap-4">
             <p className="text-white text-4xl w-80">JOIN THE PUBLIC DISCOURSE</p>
-            <Link href="https://twitter.com/discopod_xyz" target="_blank">
+            <Link href="https://twitter.com/discopodxyz" target="_blank">
               <button className="w-40 rounded-md text-white text-center bg-violet-500 p-2">
                 JOIN THE DISCO
               </button>
