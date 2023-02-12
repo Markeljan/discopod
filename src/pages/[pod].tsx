@@ -14,10 +14,10 @@ export async function getStaticPaths() {
 
 export async function getStaticProps(context: { params: { pod: any } }) {
   const { pod } = context.params;
-
+  const podNormal = pod.toString().toLowerCase();
   return {
     props: {
-      pod,
+      podNormal,
     },
   };
 }
@@ -30,7 +30,7 @@ const DISCOPOD = {
 const Pod = (props: any) => {
   const router = useRouter();
 
-  const { pod } = props;
+  const { podNormal: pod } = props;
   const { data, isError, isLoading } = useContractRead({
     address: DISCOPOD_ADDRESS,
     abi: DISCOPOD_ABI,
