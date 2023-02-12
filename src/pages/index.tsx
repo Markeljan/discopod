@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <div className="h-full min-h-screen bg-black">
       <div className="flex flex-col p-4 mx-auto gap-4">
-        <div className="flex flex-row justify-between h-80">
+        <div className="md:flex-row xs:flex-col justify-between h-80 md:px-20">
           <div className="flex flex-col gap-4">
             <p className="text-white text-4xl w-80">JOIN THE PUBLIC DISCOURSE</p>
             <Link href="https://twitter.com/discopodxyz" target="_blank">
@@ -14,7 +14,7 @@ export default function Home() {
               </button>
             </Link>
           </div>
-          <div className="flex flex-col gap-4 items-end">
+          <div className="flex flex-col gap-4 items-end my-10">
             <p className="text-white text-4xl w-80 text-right"> DISCO POD FOR PUBLIC GOODS</p>
             <Link href="/create">
               <button className="w-60 rounded-md text-white text-center bg-violet-500 p-2">
@@ -24,7 +24,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="flex flex-row justify-between ">
+        <div className="md:flex md:flex-row xs:flex-col justify-between ">
           <PodcastCard
             title="Carbon Credits in Web3"
             hostName="mark.eth"
