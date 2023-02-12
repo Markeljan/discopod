@@ -9,11 +9,11 @@ contract PodTest is Test {
     }
 
     function testCreatePodcast() public {
-        pod.createPodcast("Podcast Name", "Podcast Description", "Podcast Metadata URI");
+        pod.createPodcast("Podcast Name", "Podcast Description", "Podcast Metadata URI", "Podcast Topic");
         assertEq(pod.getLatestTokenId(), 1);
     }
     function testPodcastName() public {
-        pod.createPodcast("Podcast Name", "Podcast Description", "Podcast Metadata URI");
+        pod.createPodcast("Podcast Name", "Podcast Description", "Podcast Metadata URI", "podcast topic");
         assertEq(pod.podcastNameToId("Podcast Name"), 1);
     }
     

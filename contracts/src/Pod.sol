@@ -8,10 +8,37 @@ import "solmate/tokens/ERC1155.sol";
  * @notice The Pod contract is a headless podcast protocol that allows hosts to create podcasts and episodes, and for guests to be nominated to be on the show.
  */
 contract Pod is ERC1155 {
+    /// ERRORS ///
     error InvalidHost();
-    error GuestIsHost();
+    error GuestCantBeHost();
     error InsufficientFunds();
     error WithdrawalFailed();
+
+    /// EVENTS ///
+    event PodcastCreated(
+        uint256 podcastId,
+        string name,
+        string description,
+        string metadataUri,
+        string topic,
+        address host
+    );
+    event EpisodeCreated(
+        uint256 podcastId,
+        uint256 episodeId,
+        string episodeUri,
+        address host,
+        address guest,
+        uint256 timestamp,
+        uint256 collectibleValue
+    );
+    event GuestNominated(
+        uint256 podcastId,
+        uint256 episodeId,
+        address guest,
+        address nominator
+    );
+    event GuestVoted(uint256 podcastId, uint256 episodeId, address guest, uint256 votes);
 
     /// CONSTANTS ///
     uint256 public constant VOTE_VALUE = 0.01 ether;
@@ -28,7 +55,6 @@ contract Pod is ERC1155 {
         address nextGuest;
         address nextHost;
         uint256 timestamp;
-        string topic;
         uint256 collectibleValue;
     }
     struct Podcast {
@@ -69,13 +95,15 @@ contract Pod is ERC1155 {
     /// CONSTRUCTOR ///
     constructor(string memory _defaultMetadataUri) {
         defaultMetadataUri = _defaultMetadataUri;
+        emit URI(_defaultMetadataUri, 0);
     }
 
     /// PUBLIC/EXTERNAL FUNCTIONS ///
     function createPodcast(
         string memory _name,
         string memory _desc,
-        string memory _podMetadataUri
+        string memory _podMetadataUri,
+        string memory _topic
     ) external {
         latestTokenId += 1;
         Podcast storage newPodcast = podcastIdToPodcast[latestTokenId];
@@ -84,6 +112,7 @@ contract Pod is ERC1155 {
         newPodcast.metadataUri = _podMetadataUri;
         newPodcast.name = _name;
         newPodcast.description = _desc;
+        newPodcast.topic = _topic;
         tokenIdToMetadataUri[latestTokenId] = _podMetadataUri;
         podcastNameToId[_name] = latestTokenId;
         _mint(msg.sender, latestTokenId, 1, "");
@@ -91,7 +120,6 @@ contract Pod is ERC1155 {
 
     function addEpisode(
         uint256 _podcastId,
-        string memory _topic,
         string memory _episodeUri,
         uint256 _collectibleValue,
         address _prevGuest
@@ -110,7 +138,6 @@ contract Pod is ERC1155 {
         newEpisode.prevHost = podcastIdToPodcast[_podcastId].host;
         newEpisode.prevGuest = _prevGuest;
         newEpisode.timestamp = block.timestamp;
-        newEpisode.topic = _topic;
         newEpisode.collectibleValue = _collectibleValue;
 
         tokenIdToMetadataUri[latestTokenId] = _episodeUri;
@@ -124,7 +151,7 @@ contract Pod is ERC1155 {
             revert InsufficientFunds();
         }
         if (guestAddress == podcastIdToPodcast[podcastId].host) {
-            revert GuestIsHost();
+            revert GuestCantBeHost();
         }
         votes[guestAddress] += 1;
         podcastIdToPodcast[podcastId].fundValue += VOTE_VALUE;
@@ -142,7 +169,7 @@ contract Pod is ERC1155 {
             revert InsufficientFunds();
         }
         if (guestAddress == podcastIdToPodcast[podcastId].host) {
-            revert GuestIsHost();
+            revert GuestCantBeHost();
         }
         votes[guestAddress] += _votes;
         podcastIdToPodcast[podcastId].fundValue += votesValue;
