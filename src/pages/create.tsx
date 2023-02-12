@@ -49,17 +49,11 @@ export default function Create() {
       setUploadPending(false);
 
       setMetadataUrl(`https://nftstorage.link/ipfs/${metadata.url.substring(7)}`);
-      setFileUrl(
-        `https://nftstorage.link/ipfs/${metadata.data.external_url.pathname.substring(2)}`
-      );
     }
 
     setMintPending(true);
 
-    console.log(
-      `https://nftstorage.link/ipfs/${metadata.url.substring(7)}`,
-      `https://nftstorage.link/ipfs/${metadata.data.external_url.pathname.substring(2)}`
-    );
+    console.log(`https://nftstorage.link/ipfs/${metadata.url.substring(7)}`);
     // write to contract here
     const tx = await write();
     console.log(tx);
