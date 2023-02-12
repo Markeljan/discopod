@@ -4,6 +4,7 @@ import "@rainbow-me/rainbowkit/styles.css";
 import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { Chain, configureChains, createClient, WagmiConfig } from "wagmi";
 import { publicProvider } from "wagmi/providers/public";
+import Navbar from "@/components/Navbar";
 
 const mantleTestnet: Chain = {
   id: 5001,
@@ -46,6 +47,7 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <WagmiConfig client={wagmiClient}>
       <RainbowKitProvider chains={chains}>
+      <Navbar />
         <Component {...pageProps} />
       </RainbowKitProvider>
     </WagmiConfig>

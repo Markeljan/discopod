@@ -2,7 +2,6 @@ import { useState } from "react";
 import { NFTStorage, File } from "nft.storage";
 import { useAccount, useContractRead, useContractWrite, usePrepareContractWrite } from "wagmi";
 import { DISCOPOD_ADDRESS, DISCOPOD_ABI } from "constants/contractData";
-import Navbar from "@/components/Navbar";
 import Link from "next/link";
 
 const NFT_STORAGE_TOKEN =
@@ -59,8 +58,7 @@ export default function Create() {
   };
 
   return (
-    <div className="h-full min-h-screen bg-primary">
-      <Navbar />
+    <div className="h-full min-h-screen bg-slate-600">
       <div
         className="flex flex-col max-w-2xl w-full mx-auto
      p-6"

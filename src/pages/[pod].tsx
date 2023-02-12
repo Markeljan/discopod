@@ -1,4 +1,3 @@
-import Navbar from "@/components/Navbar";
 import { DISCOPOD_ADDRESS, DISCOPOD_ABI } from "constants/contractData";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -59,7 +58,6 @@ const Pod = (props: any) => {
 
   return (
     <div className=" bg-gray-100 p-6">
-      <Navbar />
       <div className="flex flex-col max-w-6xl w-full mx-auto p-6">
         <div className="bg-white p-6 rounded-lg shadow-md">
           {!podcastData?.name && (
