@@ -26,26 +26,26 @@ export default function Home() {
 
         <div className="flex flex-row justify-between ">
           <PodcastCard
-            title="naamatest"
-            hostName="naama.eth"
+            title="Justice & Peace"
+            hostName="mark.eth"
             guestName="mike.eth"
-            topic="Carbon Footprint"
-            fundGoal={1000}
+            topic="Justice & Peace"
+            fundGoal={250}
+            fundRaised={220}
+          />
+          <PodcastCard
+            title="Ocean Cleaning"
+            hostName="mary.eth"
+            guestName="mike.eth"
+            topic="Ocean Cleaning"
+            fundGoal={500}
             fundRaised={450}
           />
           <PodcastCard
-            title="naamatest"
+            title="Climate Tech"
             hostName="naama.eth"
             guestName="mike.eth"
-            topic="Carbon Footprint"
-            fundGoal={1000}
-            fundRaised={450}
-          />
-          <PodcastCard
-            title="naamatest"
-            hostName="naama.eth"
-            guestName="mike.eth"
-            topic="Carbon Footprint"
+            topic="Climate Tech"
             fundGoal={1000}
             fundRaised={450}
           />
