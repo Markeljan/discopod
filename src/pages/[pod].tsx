@@ -126,8 +126,8 @@ const Pod = (props: any) => {
       `https://nftstorage.link/ipfs/${latestEpisode.episodeUri.substring(7)}`
     );
     const json = await response.json();
-    console.log(json);
-    setLatestEpisodeFile(`https://nftstorage.link/ipfs/${json.external_url.substring(7)}`);
+    console.log("DATAA", json);
+    setLatestEpisodeFile(json.external_url);
   };
   let metadata: any;
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -210,12 +210,20 @@ const Pod = (props: any) => {
         <div>
           <h2 className="text-2xl font-bold mb-6">Episodes</h2>
           {latestEpisode && (
-            <Link
-              href={`https://nftstorage.link/ipfs/${latestEpisode.episodeUri.substring(7)}`}
-              target="_blank"
-            >
-              <p>{latestEpisode.episodeUri}</p>
-            </Link>
+            <>
+              <Link
+                href={`https://nftstorage.link/ipfs/${latestEpisode.episodeUri.substring(7)}`}
+                target="_blank"
+              >
+                <p>{latestEpisode.episodeUri}</p>
+              </Link>
+              <Link
+                href={`https://nftstorage.link/ipfs/${latestEpisodeFile.substring(7)}`}
+                target="_blank"
+              >
+                <p>Download Link</p>
+              </Link>
+            </>
           )}
         </div>
         <div hidden={!podcastData?.name || podcastData?.host !== address}>
