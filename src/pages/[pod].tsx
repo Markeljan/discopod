@@ -74,6 +74,7 @@ const Pod = (props: any) => {
   const [mediaFile, setMediaFile] = useState<File | null>(null);
   const [metadataUrl, setMetadataUrl] = useState("");
   const provider = useProvider();
+  const [gasLimit, setGasLimit] = useState<BigNumber>(BigNumber.from(1000000));
 
   const { config } = usePrepareContractWrite({
     address: DISCOPOD_ADDRESS,
@@ -84,7 +85,7 @@ const Pod = (props: any) => {
       metadataUrl,
       collectibleValue,
       podcastData?.guest,
-      { gasLimit: 100000000, gasPrice: 1 },
+      { gasLimit: gasLimit, gasPrice: 1 },
     ],
   });
   const {
@@ -94,16 +95,12 @@ const Pod = (props: any) => {
     write,
   } = useContractWrite(config);
 
-  console.log(metadataUrl);
-
   const { data: latestEpisode } = useContractRead({
     address: DISCOPOD_ADDRESS,
     abi: DISCOPOD_ABI,
     functionName: "episodeIdToEpisode",
     args: [podcastData?.latestEpisodeId],
   });
-
-  console.log("latestEipsode", latestEpisode);
 
   useEffect(() => {
     if (podcast?.name) {
@@ -124,25 +121,18 @@ const Pod = (props: any) => {
         type: mediaFile.type,
       }),
     });
-    console.log(metadata);
-    if (metadata) {
-      setUploadPending(false);
-      setMetadataUrl(`https://nftstorage.link/ipfs/${metadata.url.substring(7)}`);
-    }
+
+    setUploadPending(false);
+    setMetadataUrl(`https://nftstorage.link/ipfs/${metadata.url.substring(7)}`);
 
     setMintPending(true);
-    console.log(`https://nftstorage.link/ipfs/${metadata.url.substring(7)}`);
 
-    //get the current blocks gas limit
+    setGasLimit(await estimateL2GasCost(provider, config));
 
     const tx = await write();
 
-    // estimateL2GasCost(provider, tx:TransactionRequest): Promise<BigNumber>;
-
     setMintPending(false);
   };
-
-  console.log(podcastData);
 
   return (
     <div className=" bg-gray-100 p-6">

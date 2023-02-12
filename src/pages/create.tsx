@@ -53,6 +53,7 @@ export default function Create() {
     setMintPending(true);
     console.log(`https://nftstorage.link/ipfs/${metadata.url.substring(7)}`);
     // write to contract here
+
     const tx = await write();
     setMintPending(false);
   };
