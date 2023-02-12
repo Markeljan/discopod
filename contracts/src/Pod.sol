@@ -4,10 +4,10 @@ import "solmate/tokens/ERC1155.sol";
 
 /**
  * @title Pod
- * @author Naama Paulemont
+ * @author junaama (https://github.com/junaama)
  * @notice The Pod contract is a headless podcast protocol that allows hosts to create podcasts and episodes, and for guests to be nominated to be on the show.
  */
-contract Pod is ERC1155 {
+contract Pod is ERC1155, ERC1155TokenReceiver {
     /// ERRORS ///
     error InvalidHost();
     error GuestCantBeHost();
