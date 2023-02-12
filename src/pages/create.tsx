@@ -20,6 +20,7 @@ export default function Create() {
   const [ipfsHash, setIpfsHash] = useState("");
   const client = new NFTStorage({ token: NFT_STORAGE_TOKEN });
   const { address } = useAccount();
+
   const { config } = usePrepareContractWrite({
     address: DISCOPOD_ADDRESS,
     abi: DISCOPOD_ABI,
@@ -39,19 +40,24 @@ export default function Create() {
     if (!imageFile || !write) return;
     setUploadPending(true);
 
-    const metadata = await client.store({
+    let metadata
+    try {
+      metadata = await client.store({
       name: title,
       description: description,
       image: new File([imageFile], imageFile.name.replace(/\s/g, ""), { type: imageFile.type }),
       external_url: `discopod.xyz/${title}`,
     });
-    console.log(metadata);
-    if (metadata) {
-      setUploadPending(false);
-      setMetadataUrl(`https://nftstorage.link/ipfs/${metadata.url.substring(7)}`);
+    console.log(metadata)
+    } catch (error) {
+      console.error(error)
     }
+
+    setUploadPending(false);
+    setMetadataUrl(`https://nftstorage.link/ipfs/${metadata?.url.substring(7)}`);
     setMintPending(true);
-    console.log(`https://nftstorage.link/ipfs/${metadata.url.substring(7)}`);
+    console.log(`https://nftstorage.link/ipfs/${metadata?.url.substring(7)}`);
+    console.log("before tx write, metadataUrl: ", metadataUrl);
     // write to contract here
 
     const tx = await write();
@@ -97,6 +103,7 @@ export default function Create() {
               <option value="Public Goods">Public Goods</option>
               <option value="Web3 PGF">Web3 PGF</option>
               <option value="Carbon Offsets">Carbon Offsets</option>
+              <option value="Sustainability">Sustainability</option>
             </select>
           </div>
 
@@ -111,11 +118,11 @@ export default function Create() {
               />
             </div>
 
-            <div className="flex justify-center items-center w-full border-2 border-solid border-gray-400 rounded-lg">
+            <div className="flex gap-2 items-center w-full rounded-lg">
               {
                 <button
                   disabled={uploadPending || mintPending}
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg"
+                  className="bg-violet-500 hover:bg-violet-700 text-white font-medium py-2 px-4 rounded-lg"
                 >
                   {metadataUrl && data
                     ? "Mint Successful"
@@ -135,6 +142,12 @@ export default function Create() {
                     <p>Tx Hash: {data.hash.substring(0, 12)}</p>
                   </Link>
                 </div>
+              )}
+              {isSuccess && (
+                <div className="bg-violet-500 hover:bg-violet-700 text-white font-medium py-2 px-4 rounded-lg"> <Link href={`/${title}`}> Go to Pod Page
+                </Link>
+                  </div>
+               
               )}
             </div>
           </div>
