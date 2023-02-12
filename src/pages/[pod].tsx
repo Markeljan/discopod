@@ -65,18 +65,13 @@ const Pod = (props: any) => {
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [mediaFile, setMediaFile] = useState<File | null>(null);
   const [metadataUrl, setMetadataUrl] = useState("");
+  const [gasLimit, setGasLimit] = useState(1000000);
 
   const { config } = usePrepareContractWrite({
     address: DISCOPOD_ADDRESS,
     abi: DISCOPOD_ABI,
     functionName: "addEpisode",
-    args: [
-      podcastId,
-      metadataUrl,
-      collectibleValue,
-      podcastData?.guest,
-      { gasLimit: 1000000, gasPrice: 1 },
-    ],
+    args: [podcastId, metadataUrl, collectibleValue, podcastData?.guest, { gasLimit: 1000000 }],
   });
   const {
     data: writeData,
@@ -84,6 +79,8 @@ const Pod = (props: any) => {
     isSuccess: writeIsSuccess,
     write,
   } = useContractWrite(config);
+
+  console.log(metadataUrl);
 
   const { data: latestEpisode } = useContractRead({
     address: DISCOPOD_ADDRESS,
@@ -121,8 +118,11 @@ const Pod = (props: any) => {
     }
     setMintPending(true);
     console.log(`https://nftstorage.link/ipfs/${metadata.url.substring(7)}`);
-    // write to contract here
+
+    //get the current blocks gas limit
+
     const tx = await write();
+
     setMintPending(false);
   };
 
@@ -172,6 +172,17 @@ const Pod = (props: any) => {
                 onChange={(e) => setDescription(e.target.value)}
                 className="w-full p-2 h-32 border border-gray-400 rounded-lg"
               ></textarea>
+            </div>
+
+            <div className="mb-4">
+              <label className="block font-medium mb-2">Collectible Value:</label>
+              <input
+                type="number"
+                required
+                value={collectibleValue}
+                onChange={(e) => setCollectibleValue(parseInt(e.target.value))}
+                className="w-full p-2 border border-gray-400 rounded-lg"
+              />
             </div>
 
             <div className="mb-4">
