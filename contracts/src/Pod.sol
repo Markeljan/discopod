@@ -2,6 +2,7 @@
 pragma solidity ^0.8.13;
 import "solmate/tokens/ERC1155.sol";
 import "solmate/auth/Owned.sol";
+
 /**
  * @title Pod
  * @author junaama (https://github.com/junaama)
@@ -27,7 +28,7 @@ contract Pod is ERC1155, ERC1155TokenReceiver, Owned {
         uint256 podcastId;
         uint256 episodeId;
         uint256 timestamp;
-        uint256 collectibleValue;        
+        uint256 collectibleValue;
         address host;
         address guest;
         address prevHost;
@@ -43,9 +44,9 @@ contract Pod is ERC1155, ERC1155TokenReceiver, Owned {
         uint256 episodeSize;
         uint256 currentPollId;
         string name;
-        string description;   
+        string description;
         string topic;
-        string metadataUri;   
+        string metadataUri;
         address host;
         address guest;
         mapping(uint256 => Episode) episodes;
@@ -143,10 +144,10 @@ contract Pod is ERC1155, ERC1155TokenReceiver, Owned {
         tokenIdToMetadataUri[latestTokenId] = _episodeUri;
     }
 
-    function nominate(uint256 _podcastId, address guestAddress)
-        external
-        payable
-    {
+    function nominate(
+        uint256 _podcastId,
+        address guestAddress
+    ) external payable {
         if (msg.value != VOTE_VALUE) {
             revert InsufficientFunds();
         }
@@ -163,7 +164,7 @@ contract Pod is ERC1155, ERC1155TokenReceiver, Owned {
         }
         currentPoll.nominated[guestAddress] = true;
         currentPoll.votes[guestAddress] += 1;
-        if(currentPoll.votes[guestAddress] > currentPoll.highestVoteCount) {
+        if (currentPoll.votes[guestAddress] > currentPoll.highestVoteCount) {
             currentPoll.highestVoteCount = currentPoll.votes[guestAddress];
             currentPoll.currentWinningAddress = guestAddress;
         }
@@ -191,7 +192,7 @@ contract Pod is ERC1155, ERC1155TokenReceiver, Owned {
             revert GuestNotNominated();
         }
         currentPoll.votes[guestAddress] += _votes;
-        if(currentPoll.votes[guestAddress] > currentPoll.highestVoteCount) {
+        if (currentPoll.votes[guestAddress] > currentPoll.highestVoteCount) {
             currentPoll.highestVoteCount = currentPoll.votes[guestAddress];
             currentPoll.currentWinningAddress = guestAddress;
         }
@@ -222,7 +223,7 @@ contract Pod is ERC1155, ERC1155TokenReceiver, Owned {
     function closePoll(uint256 _podcastId) public {
         uint256 currentPollId = podcastIdToPodcast[_podcastId].currentPollId;
         Poll storage currentPoll = pollIdToPoll[currentPollId];
-        if(currentPoll.endsAt <= block.timestamp) {
+        if (currentPoll.endsAt <= block.timestamp) {
             revert PollNotOverYet();
         }
         if (!currentPoll.isPollOpen) {
@@ -234,10 +235,10 @@ contract Pod is ERC1155, ERC1155TokenReceiver, Owned {
         _podcast.guest = winner;
     }
 
-    function mintEpisodeCollectible(uint256 _episodeId, uint256 _podcastId)
-        public
-        payable
-    {
+    function mintEpisodeCollectible(
+        uint256 _episodeId,
+        uint256 _podcastId
+    ) public payable {
         if (msg.value != episodeIdToEpisode[_episodeId].collectibleValue) {
             revert InsufficientFunds();
         }
@@ -252,7 +253,9 @@ contract Pod is ERC1155, ERC1155TokenReceiver, Owned {
                 100);
         publicGoodsValue += publicGoodsShare;
         fundBalanceOf[podcastIdToPodcast[_podcastId].host] += hostRevenueShare;
-        fundBalanceOf[episodeIdToEpisode[_episodeId].guest] += guestRevenueShare;
+        fundBalanceOf[
+            episodeIdToEpisode[_episodeId].guest
+        ] += guestRevenueShare;
         _mint(msg.sender, _episodeId, 1, "");
     }
 
@@ -260,17 +263,17 @@ contract Pod is ERC1155, ERC1155TokenReceiver, Owned {
         if (fundBalanceOf[msg.sender] <= 0) {
             revert NoBalance();
         }
-        (bool succ, ) = msg.sender.call{
-            value: fundBalanceOf[msg.sender]
-        }("");
+        (bool succ, ) = msg.sender.call{value: fundBalanceOf[msg.sender]}("");
         if (!succ) {
             revert WithdrawalFailed();
         }
     }
 
-    function withdrawPublicGoodsFunds(address _publicGoodsAddress) external payable onlyOwner {
+    function withdrawPublicGoodsFunds(
+        address _publicGoodsAddress
+    ) external payable onlyOwner {
         (bool succ, ) = _publicGoodsAddress.call{value: publicGoodsValue}("");
-        if(!succ){
+        if (!succ) {
             revert WithdrawalFailed();
         }
     }
@@ -278,27 +281,41 @@ contract Pod is ERC1155, ERC1155TokenReceiver, Owned {
     function getLatestTokenId() public view returns (uint256) {
         return latestTokenId;
     }
-    function getCurrentPollInfo(uint256 _podcastId) public view returns (uint256, bool, address, uint256) {
+
+    function getCurrentPollInfo(
+        uint256 _podcastId
+    ) public view returns (uint256, bool, address, uint256) {
         uint256 currentPollId = podcastIdToPodcast[_podcastId].currentPollId;
-        return (pollIdToPoll[currentPollId].endsAt, pollIdToPoll[currentPollId].isPollOpen, pollIdToPoll[currentPollId].currentWinningAddress, pollIdToPoll[currentPollId].highestVoteCount);
+        return (
+            pollIdToPoll[currentPollId].endsAt,
+            pollIdToPoll[currentPollId].isPollOpen,
+            pollIdToPoll[currentPollId].currentWinningAddress,
+            pollIdToPoll[currentPollId].highestVoteCount
+        );
     }
-    function getCurrentPollAddressVotes(uint256 _podcastId, address _guestAddress) public view returns (uint256){
+
+    function getCurrentPollAddressVotes(
+        uint256 _podcastId,
+        address _guestAddress
+    ) public view returns (uint256) {
         uint256 currentPollId = podcastIdToPodcast[_podcastId].currentPollId;
         return pollIdToPoll[currentPollId].votes[_guestAddress];
     }
+
     function getPodcastIdList() public view returns (uint256[] memory) {
         return podcastIdList;
     }
-    function getEpisodeIdList(uint256 _podcastId) public view returns (uint256[] memory) {
+
+    function getEpisodeIdList(
+        uint256 _podcastId
+    ) public view returns (uint256[] memory) {
         return podcastIdToEpisodeIdList[_podcastId];
     }
+
     /// FUNCTION OVERRIDES ///
-    function uri(uint256 _tokenId)
-        public
-        view
-        override
-        returns (string memory)
-    {
+    function uri(
+        uint256 _tokenId
+    ) public view override returns (string memory) {
         if (bytes(tokenIdToMetadataUri[_tokenId]).length != 0)
             return tokenIdToMetadataUri[_tokenId];
         return defaultMetadataUri;

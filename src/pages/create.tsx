@@ -125,10 +125,10 @@ export default function Create() {
                     : "Mint"}
                 </button>
               }
-              {isSuccess && data && (
+              {data && data.hash && (
                 <div className="text-green-500">
                   <Link
-                    href={`https://explorer.testnet.mantle.xyz/address/${DISCOPOD_ADDRESS}`}
+                    href={`https://explorer.testnet.mantle.xyz/tx/${data.hash}`}
                     target="_blank"
                   >
                     <p>Tx Hash: {data.hash.substring(0, 12)}</p>

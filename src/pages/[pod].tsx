@@ -3,7 +3,15 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { NFTStorage } from "nft.storage";
 import { useEffect, useState } from "react";
-import { useAccount, useContractRead, useContractWrite, usePrepareContractWrite } from "wagmi";
+import {
+  useAccount,
+  useContractRead,
+  useContractWrite,
+  usePrepareContractWrite,
+  useProvider,
+} from "wagmi";
+import { estimateL2GasCost, L2Provider } from "@mantleio/sdk";
+import { BigNumber } from "ethers";
 
 const NFT_STORAGE_TOKEN =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDc1NzI4OERlZTM2QUY3N0FjZjZEQ0YxQjBiMjY4QzQ2YjZjMGZhNzMiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY3NjE0NTA1OTA5NCwibmFtZSI6InBvZGNoYWluIn0.XjX9uNYAm-sQ4esJlTmgpK65zZ4LpyERfnsd2peOaWc";
@@ -65,13 +73,19 @@ const Pod = (props: any) => {
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [mediaFile, setMediaFile] = useState<File | null>(null);
   const [metadataUrl, setMetadataUrl] = useState("");
-  const [gasLimit, setGasLimit] = useState(1000000);
+  const provider = useProvider();
 
   const { config } = usePrepareContractWrite({
     address: DISCOPOD_ADDRESS,
     abi: DISCOPOD_ABI,
     functionName: "addEpisode",
-    args: [podcastId, metadataUrl, collectibleValue, podcastData?.guest, { gasLimit: 1000000 }],
+    args: [
+      podcastId,
+      metadataUrl,
+      collectibleValue,
+      podcastData?.guest,
+      { gasLimit: 100000000, gasPrice: 1 },
+    ],
   });
   const {
     data: writeData,
@@ -86,8 +100,7 @@ const Pod = (props: any) => {
     address: DISCOPOD_ADDRESS,
     abi: DISCOPOD_ABI,
     functionName: "episodeIdToEpisode",
-    args: [13],
-    // args: [podcastData?.latestEpisodeId],
+    args: [podcastData?.latestEpisodeId],
   });
 
   console.log("latestEipsode", latestEpisode);
@@ -116,12 +129,15 @@ const Pod = (props: any) => {
       setUploadPending(false);
       setMetadataUrl(`https://nftstorage.link/ipfs/${metadata.url.substring(7)}`);
     }
+
     setMintPending(true);
     console.log(`https://nftstorage.link/ipfs/${metadata.url.substring(7)}`);
 
     //get the current blocks gas limit
 
     const tx = await write();
+
+    // estimateL2GasCost(provider, tx:TransactionRequest): Promise<BigNumber>;
 
     setMintPending(false);
   };
@@ -220,10 +236,10 @@ const Pod = (props: any) => {
                       : "Mint"}
                   </button>
                 }
-                {writeIsSuccess && writeData && (
+                {writeData && writeData.hash && (
                   <div className="text-green-500">
                     <Link
-                      href={`https://explorer.testnet.mantle.xyz/address/${DISCOPOD_ADDRESS}`}
+                      href={`https://explorer.testnet.mantle.xyz/tx/${writeData.hash}`}
                       target="_blank"
                     >
                       <p>Tx Hash: {writeData.hash.substring(0, 12)}</p>
