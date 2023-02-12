@@ -9,9 +9,10 @@ import {
   useContractWrite,
   usePrepareContractWrite,
   useProvider,
+  useSigner,
 } from "wagmi";
 import { estimateL2GasCost, estimateTotalGasCost } from "@mantleio/sdk";
-import { BigNumber } from "ethers";
+import { BigNumber, Contract } from "ethers";
 
 const NFT_STORAGE_TOKEN =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDc1NzI4OERlZTM2QUY3N0FjZjZEQ0YxQjBiMjY4QzQ2YjZjMGZhNzMiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY3NjE0NTA1OTA5NCwibmFtZSI6InBvZGNoYWluIn0.XjX9uNYAm-sQ4esJlTmgpK65zZ4LpyERfnsd2peOaWc";
@@ -75,6 +76,7 @@ const Pod = (props: any) => {
   const [metadataUrl, setMetadataUrl] = useState("");
   const [podcastMetadataObject, setPodcastMetadataObject] = useState("");
   const provider = useProvider();
+  const { data: signer } = useSigner();
   const [gasPrice, setGasPrice] = useState<BigNumber>(BigNumber.from(53000));
   const [totalGasCost, setTotalGasCost] = useState<BigNumber>(BigNumber.from(1000000));
   const [latestEpisodeFile, setLatestEpisodeFile] = useState("");
@@ -103,8 +105,8 @@ const Pod = (props: any) => {
     if (podcast?.name) {
       setPodcastData(podcast);
     }
-    getMetadata(podcast?.metadataUri);
-    getEpisodeLink(latestEpisode?.episodeUri);
+    // getMetadata(podcast?.metadataUri);
+    // getEpisodeLink(latestEpisode?.episodeUri);
   }, [podcast]);
 
   const getMetadata = async (podcastMetadataUri: string) => {
@@ -118,13 +120,13 @@ const Pod = (props: any) => {
     const json = await response.json();
     setLatestEpisodeFile(`https://nftstorage.link/ipfs/${json.external_url.substring(7)}`);
   };
-
+  let metadata: any;
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!imageFile || !mediaFile || !write) return;
     setUploadPending(true);
     console.log(podcast);
-    let metadata;
+
     try {
       metadata = await client.store({
         name: title,
@@ -150,16 +152,28 @@ const Pod = (props: any) => {
     } catch (error) {
       console.error(error);
     }
-    const tx = await write();
+    const CONTRACT = new Contract(DISCOPOD_ADDRESS, DISCOPOD_ABI, signer!);
+    const tx = await CONTRACT.addEpisode(
+      podcastId,
+      metadata?.url,
+      collectibleValue,
+      podcastData?.guest,
+      {
+        gasLimit: 10000000,
+      }
+    );
+
+    await tx.wait();
 
     setMintPending(false);
   };
-
+  console.log("podcastData:", podcastData);
+  console.log("latestEpisode:", latestEpisode);
   return (
     <div className=" bg-gray-100 p-6">
       <div className="flex flex-col max-w-6xl w-full mx-auto p-6">
         <div className="bg-primary.dark p-6 rounded-lg shadow-md">
-          {podcastDataLoading && (
+          {/* {podcastDataLoading && (
             <>
               <h2 className="text-2xl font-bold mb-6">
                 Podcast Does not exist... Yet! Make it yourself!
@@ -171,7 +185,7 @@ const Pod = (props: any) => {
                 Create Podcast
               </button>
             </>
-          )}
+          )} */}
           <h2 className="text-2xl font-bold mb-6">{podcastData?.name?.toUpperCase()}</h2>
 
           {podcastMetadataObject ? (
