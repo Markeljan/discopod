@@ -5,14 +5,7 @@ import { usePrepareSendTransaction, useSendTransaction } from "wagmi";
 
 const inter = Inter({ subsets: ["latin"] });
 
-const NAAMA_ADDRESS = "0x2Ba62a52b9244b4E45Ba52cc0B1f8D39B522025D";
-
 export default function Home() {
-  const { config } = usePrepareSendTransaction({
-    request: { to: NAAMA_ADDRESS, value: BigNumber.from("10000000000000000") },
-  });
-  const { data, isLoading, isSuccess, sendTransaction } = useSendTransaction(config);
-
   return (
     <div className="h-full min-h-screen bg-primary">
       <div className="flex-col w-5/6 mx-auto">
