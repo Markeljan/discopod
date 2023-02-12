@@ -76,6 +76,7 @@ const Pod = (props: any) => {
   const provider = useProvider();
   const [gasPrice, setGasPrice] = useState<BigNumber>(BigNumber.from(53000));
   const [totalGasCost, setTotalGasCost] = useState<BigNumber>(BigNumber.from(1000000));
+  const [latestEpisodeFile, setLatestEpisodeFile] = useState("");
 
   const { config } = usePrepareContractWrite({
     address: DISCOPOD_ADDRESS,
@@ -86,7 +87,7 @@ const Pod = (props: any) => {
       metadataUrl,
       collectibleValue,
       podcastData?.guest,
-      { gasLimit: totalGasCost, gasPrice: gasPrice },
+      { gasLimit: totalGasCost, gasPrice: 1 },
     ],
   });
   const {
@@ -103,17 +104,26 @@ const Pod = (props: any) => {
     args: [podcastData?.latestEpisodeId],
   });
 
+  console.log("latest: ", latestEpisode)
+  
   useEffect(() => {
     if (podcast?.name) {
       setPodcastData(podcast);
     }
     getMetadata(podcast?.metadataUri)
+    getEpisodeLink(latestEpisode?.episodeUri)
   }, [podcast]);
 
   const getMetadata = async (podcastMetadataUri: string) => {
     const response = await fetch(podcastMetadataUri);
     const json = await response.json();
     setPodcastMetadataObject(`https://nftstorage.link/ipfs/${json.image.substring(7)}`);
+  }
+
+  const getEpisodeLink = async (episodeMetadataUri: string) => {
+    const response = await fetch(episodeMetadataUri);
+    const json = await response.json();
+    setLatestEpisodeFile(`https://nftstorage.link/ipfs/${json.external_url.substring(7)}`);
   }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -123,7 +133,7 @@ const Pod = (props: any) => {
 
     let metadata;
     try {
-      const metadata = await client.store({
+      metadata = await client.store({
         name: title,
         description: description,
         image: new File([imageFile], imageFile.name.replace(/\s/g, ""), { type: imageFile.type }),
@@ -134,7 +144,7 @@ const Pod = (props: any) => {
     } catch (error) {
       console.error(error);
     }
-
+    console.log("meta",  metadata)
     setUploadPending(false);
     setMetadataUrl(`https://nftstorage.link/ipfs/${metadata?.url.substring(7)}`);
 
@@ -154,7 +164,7 @@ const Pod = (props: any) => {
 
     setMintPending(false);
   };
-
+  console.log("file", latestEpisodeFile)
   return (
     <div className=" bg-gray-100 p-6">
       <div className="flex flex-col max-w-6xl w-full mx-auto p-6">
@@ -173,13 +183,17 @@ const Pod = (props: any) => {
             </>
           )}
           <h2 className="text-2xl font-bold mb-6">{podcastData?.name?.toUpperCase()}</h2>
-            <img src={podcastMetadataObject} width={50} height={50} />
+            
+            {podcastMetadataObject ? (<img src={podcastMetadataObject} width={50} height={50} />) : (<div className="w-20 h-20 bg-gradient-to-r from-indigo-400 to-pink-400"/>)}
+            
           <p>{podcastData?.description}</p>
           <p>Topic: {podcastData?.topic}</p>
           <p>{podcastData?.host?.substring(0, 8)}</p>
         </div>
         <div>
           <h2 className="text-2xl font-bold mb-6">Episodes</h2>
+          {latestEpisodeFile && (<a href={latestEpisodeFile}>Latest Episode</a>)}
+
         </div>
         <div hidden={!podcastData?.name || podcastData?.host !== address}>
           <form onSubmit={handleSubmit} className="p-6 rounded-lg shadow-md">
