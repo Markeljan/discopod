@@ -11,6 +11,7 @@ contract Pod is ERC1155 {
     error InvalidHost();
     error GuestIsHost();
     error InsufficientFunds();
+    error WithdrawalFailed();
 
     /// CONSTANTS ///
     uint256 public constant VOTE_VALUE = 0.01 ether;
@@ -35,22 +36,21 @@ contract Pod is ERC1155 {
         uint256 episodeSize;
         address host;
         address guest;
-        bool headless;
         string topic;
-        uint256 hostRevenueShare;
-        uint256 guestRevenueShare;
-        uint256 publicGoodsShare;
+        RevenueShare revenueShares;
         uint256 podcastId;
         uint256 latestEpisodeId;
         uint256 fundValue;
         uint256 voteBidValue;
-        VoteBid currentVoteBid;
         string metadataUri;
         string name;
         string description;
     }
-    struct VoteBid {
-        uint256 endsAt;
+
+    struct RevenueShare {
+        uint256 hostRevenueShare;
+        uint256 guestRevenueShare;
+        uint256 publicGoodsShare;
     }
 
     /// VARIABLES ///
@@ -63,6 +63,8 @@ contract Pod is ERC1155 {
     mapping(address => mapping(uint256 => address)) public nominations;
     mapping(address => uint256) public votes;
     mapping(uint256 => string) public tokenIdToMetadataUri;
+    mapping(string => uint256) public podcastNameToId;
+    mapping(address => uint256) public fundBalanceOf;
 
     /// CONSTRUCTOR ///
     constructor(string memory _defaultMetadataUri) {
@@ -73,18 +75,17 @@ contract Pod is ERC1155 {
     function createPodcast(
         string memory _name,
         string memory _desc,
-        bool _headless,
         string memory _podMetadataUri
     ) external {
         latestTokenId += 1;
         Podcast storage newPodcast = podcastIdToPodcast[latestTokenId];
         newPodcast.host = msg.sender;
-        newPodcast.headless = _headless;
         newPodcast.podcastId = latestTokenId;
         newPodcast.metadataUri = _podMetadataUri;
         newPodcast.name = _name;
         newPodcast.description = _desc;
         tokenIdToMetadataUri[latestTokenId] = _podMetadataUri;
+        podcastNameToId[_name] = latestTokenId;
         _mint(msg.sender, latestTokenId, 1, "");
     }
 
@@ -100,6 +101,7 @@ contract Pod is ERC1155 {
         }
         latestTokenId += 1;
         Episode storage newEpisode = episodeIdToEpisode[latestTokenId];
+        podcastIdToPodcast[_podcastId].episodeSize += 1;
 
         newEpisode.podcastId = _podcastId;
         newEpisode.episodeId = latestTokenId;
@@ -112,27 +114,22 @@ contract Pod is ERC1155 {
         newEpisode.collectibleValue = _collectibleValue;
 
         tokenIdToMetadataUri[latestTokenId] = _episodeUri;
-        podcastIdToPodcast[_podcastId].episodeSize += 1;
     }
 
     function nominate(uint256 podcastId, address guestAddress)
         external
         payable
     {
-        require(
-            msg.value == VOTE_VALUE,
-            "Insufficient funds for nomination amount"
-        );
         if (msg.value != VOTE_VALUE) {
             revert InsufficientFunds();
         }
         if (guestAddress == podcastIdToPodcast[podcastId].host) {
             revert GuestIsHost();
         }
-        nominations[guestAddress][podcastId] = msg.sender;
         votes[guestAddress] += 1;
         podcastIdToPodcast[podcastId].fundValue += VOTE_VALUE;
         publicGoodsValue += VOTE_VALUE;
+        nominations[guestAddress][podcastId] = msg.sender;
     }
 
     function addVote(
@@ -141,15 +138,12 @@ contract Pod is ERC1155 {
         uint256 _votes
     ) external payable {
         uint256 votesValue = _votes * VOTE_VALUE;
-        require(msg.value == votesValue, "Insufficient funds for vote amount");
-        require(
-            nominations[guestAddress][podcastId] != address(0),
-            "Guest is not nominated"
-        );
-        require(
-            guestAddress != podcastIdToPodcast[podcastId].host,
-            "Guest is the host"
-        );
+        if (msg.value != votesValue) {
+            revert InsufficientFunds();
+        }
+        if (guestAddress == podcastIdToPodcast[podcastId].host) {
+            revert GuestIsHost();
+        }
         votes[guestAddress] += _votes;
         podcastIdToPodcast[podcastId].fundValue += votesValue;
         publicGoodsValue += votesValue;
@@ -161,13 +155,18 @@ contract Pod is ERC1155 {
         uint256 guestRevenueShare,
         uint256 publicGoodsShare
     ) external {
-        require(
-            podcastIdToPodcast[_podcastId].host == msg.sender,
-            "Only the host can set the revenue share"
-        );
-        podcastIdToPodcast[_podcastId].hostRevenueShare = hostRevenueShare;
-        podcastIdToPodcast[_podcastId].guestRevenueShare = guestRevenueShare;
-        podcastIdToPodcast[_podcastId].publicGoodsShare = publicGoodsShare;
+        if (podcastIdToPodcast[_podcastId].host != msg.sender) {
+            revert InvalidHost();
+        }
+        podcastIdToPodcast[_podcastId]
+            .revenueShares
+            .hostRevenueShare = hostRevenueShare;
+        podcastIdToPodcast[_podcastId]
+            .revenueShares
+            .guestRevenueShare = guestRevenueShare;
+        podcastIdToPodcast[_podcastId]
+            .revenueShares
+            .publicGoodsShare = publicGoodsShare;
     }
 
     // @junaama TODO: implement this
@@ -177,32 +176,49 @@ contract Pod is ERC1155 {
         public
         payable
     {
-        require(
-            msg.value == episodeIdToEpisode[_episodeId].collectibleValue,
-            "Insufficient funds for collectible value"
-        );
+        if (msg.value != episodeIdToEpisode[_episodeId].collectibleValue) {
+            revert InsufficientFunds();
+        }
         uint256 publicGoodsShare = msg.value *
-            (podcastIdToPodcast[_podcastId].publicGoodsShare / 100);
+            (podcastIdToPodcast[_podcastId].revenueShares.publicGoodsShare /
+                100);
         uint256 hostRevenueShare = msg.value *
-            (podcastIdToPodcast[_podcastId].hostRevenueShare / 100);
+            (podcastIdToPodcast[_podcastId].revenueShares.hostRevenueShare /
+                100);
         uint256 guestRevenueShare = msg.value *
-            (podcastIdToPodcast[_podcastId].guestRevenueShare / 100);
+            (podcastIdToPodcast[_podcastId].revenueShares.guestRevenueShare /
+                100);
         publicGoodsValue += publicGoodsShare;
+        fundBalanceOf[podcastIdToPodcast[_podcastId].host] += hostRevenueShare;
+        fundBalanceOf[episodeIdToEpisode[_episodeId].guest] += guestRevenueShare;
         _mint(msg.sender, _episodeId, 1, "");
     }
 
     function withdrawPodcastFunds(uint256 _podcastId) public payable {
-        require(
-            msg.sender == podcastIdToPodcast[_podcastId].host,
-            "Only the host can withdraw funds"
-        );
+        if (msg.sender != podcastIdToPodcast[_podcastId].host) {
+            revert InvalidHost();
+        }
+        (bool succ, ) = msg.sender.call{
+            value: podcastIdToPodcast[_podcastId].fundValue
+        }("");
+        if (!succ) {
+            revert WithdrawalFailed();
+        }
     }
 
-    function withdrawPublicGoodsFunds() external payable {
+    function withdrawPublicGoodsFunds(address _publicGoodsAddress) external payable {
         require(
             msg.sender == address(this),
             "Only the contract can withdraw funds"
         );
+        (bool succ, ) = _publicGoodsAddress.call{value: publicGoodsValue}("");
+        if(!succ){
+            revert WithdrawalFailed();
+        }
+    }
+
+    function getLatestTokenId() public view returns (uint256) {
+        return latestTokenId;
     }
 
     /// FUNCTION OVERRIDES ///
