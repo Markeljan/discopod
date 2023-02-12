@@ -17,5 +17,10 @@ contract PodTest is Test, ERC1155TokenReceiver {
         pod.createPodcast("Podcast Name", "Podcast Description", "Podcast Metadata URI", "podcast topic");
         assertEq(pod.podcastNameToId("Podcast Name"), 1);
     }
+    function testCreateEpisode() public {
+        pod.createPodcast("Podcast Name", "Podcast Description", "Podcast Metadata URI", "podcast topic");
+        /// 100000000000000 = 0.0001 ETH
+        pod.addEpisode(1, "metadatalink", 100000000000000, address(this));
 
+    }
 }
