@@ -1,5 +1,4 @@
 import { Inter } from "@next/font/google";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
 import Navbar from "components/Navbar";
 import { BigNumber } from "ethers";
 import { usePrepareSendTransaction, useSendTransaction } from "wagmi";

@@ -1,5 +1,6 @@
-export const PODCHAIN_ADDRESS = "0x00B69629dc38C6AB09280bF5cD40d1E8adcF549c"
-export const PODCHAIN_ABI = [
+export const DISCOPOD_ADDRESS = "0xaF27F0b77Ad85D5F7bF3EAE88CeAb9525412a90a"
+
+export const DISCOPOD_ABI = [
     {
       "inputs": [
         {
@@ -13,7 +14,7 @@ export const PODCHAIN_ABI = [
     },
     {
       "inputs": [],
-      "name": "GuestIsHost",
+      "name": "GuestCantBeHost",
       "type": "error"
     },
     {
@@ -24,6 +25,11 @@ export const PODCHAIN_ABI = [
     {
       "inputs": [],
       "name": "InvalidHost",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "WithdrawalFailed",
       "type": "error"
     },
     {
@@ -49,6 +55,160 @@ export const PODCHAIN_ABI = [
         }
       ],
       "name": "ApprovalForAll",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "podcastId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "episodeId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "episodeUri",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "host",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "guest",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "timestamp",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "collectibleValue",
+          "type": "uint256"
+        }
+      ],
+      "name": "EpisodeCreated",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "podcastId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "episodeId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "guest",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "nominator",
+          "type": "address"
+        }
+      ],
+      "name": "GuestNominated",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "podcastId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "episodeId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "guest",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "votes",
+          "type": "uint256"
+        }
+      ],
+      "name": "GuestVoted",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "podcastId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "description",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "metadataUri",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "topic",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "host",
+          "type": "address"
+        }
+      ],
+      "name": "PodcastCreated",
       "type": "event"
     },
     {
@@ -166,11 +326,6 @@ export const PODCHAIN_ABI = [
         },
         {
           "internalType": "string",
-          "name": "_topic",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
           "name": "_episodeUri",
           "type": "string"
         },
@@ -274,13 +429,13 @@ export const PODCHAIN_ABI = [
           "type": "string"
         },
         {
-          "internalType": "bool",
-          "name": "_headless",
-          "type": "bool"
+          "internalType": "string",
+          "name": "_podMetadataUri",
+          "type": "string"
         },
         {
           "internalType": "string",
-          "name": "_podMetadataUri",
+          "name": "_topic",
           "type": "string"
         }
       ],
@@ -363,13 +518,40 @@ export const PODCHAIN_ABI = [
           "type": "uint256"
         },
         {
-          "internalType": "string",
-          "name": "topic",
-          "type": "string"
-        },
-        {
           "internalType": "uint256",
           "name": "collectibleValue",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "fundBalanceOf",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getLatestTokenId",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
           "type": "uint256"
         }
       ],
@@ -486,29 +668,31 @@ export const PODCHAIN_ABI = [
           "type": "address"
         },
         {
-          "internalType": "bool",
-          "name": "headless",
-          "type": "bool"
-        },
-        {
           "internalType": "string",
           "name": "topic",
           "type": "string"
         },
         {
-          "internalType": "uint256",
-          "name": "hostRevenueShare",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "guestRevenueShare",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "publicGoodsShare",
-          "type": "uint256"
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "hostRevenueShare",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "guestRevenueShare",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "publicGoodsShare",
+              "type": "uint256"
+            }
+          ],
+          "internalType": "struct Pod.RevenueShare",
+          "name": "revenueShares",
+          "type": "tuple"
         },
         {
           "internalType": "uint256",
@@ -531,18 +715,6 @@ export const PODCHAIN_ABI = [
           "type": "uint256"
         },
         {
-          "components": [
-            {
-              "internalType": "uint256",
-              "name": "endsAt",
-              "type": "uint256"
-            }
-          ],
-          "internalType": "struct Pod.VoteBid",
-          "name": "currentVoteBid",
-          "type": "tuple"
-        },
-        {
           "internalType": "string",
           "name": "metadataUri",
           "type": "string"
@@ -556,6 +728,25 @@ export const PODCHAIN_ABI = [
           "internalType": "string",
           "name": "description",
           "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "name": "podcastNameToId",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
         }
       ],
       "stateMutability": "view",
@@ -763,7 +954,13 @@ export const PODCHAIN_ABI = [
       "type": "function"
     },
     {
-      "inputs": [],
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_publicGoodsAddress",
+          "type": "address"
+        }
+      ],
       "name": "withdrawPublicGoodsFunds",
       "outputs": [],
       "stateMutability": "payable",
