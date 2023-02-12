@@ -10,7 +10,7 @@ import {
   usePrepareContractWrite,
   useProvider,
 } from "wagmi";
-import { estimateL2GasCost, L2Provider } from "@mantleio/sdk";
+import { estimateL2GasCost, estimateTotalGasCost } from "@mantleio/sdk";
 import { BigNumber } from "ethers";
 
 const NFT_STORAGE_TOKEN =
@@ -74,7 +74,8 @@ const Pod = (props: any) => {
   const [mediaFile, setMediaFile] = useState<File | null>(null);
   const [metadataUrl, setMetadataUrl] = useState("");
   const provider = useProvider();
-  const [gasLimit, setGasLimit] = useState<BigNumber>(BigNumber.from(1000000));
+  const [gasPrice, setGasPrice] = useState<BigNumber>(BigNumber.from(53000));
+  const [totalGasCost, setTotalGasCost] = useState<BigNumber>(BigNumber.from(1000000));
 
   const { config } = usePrepareContractWrite({
     address: DISCOPOD_ADDRESS,
@@ -85,7 +86,7 @@ const Pod = (props: any) => {
       metadataUrl,
       collectibleValue,
       podcastData?.guest,
-      { gasLimit: gasLimit, gasPrice: 1 },
+      { gasLimit: totalGasCost, gasPrice: gasPrice },
     ],
   });
   const {
@@ -113,22 +114,35 @@ const Pod = (props: any) => {
     if (!imageFile || !mediaFile || !write) return;
     setUploadPending(true);
 
-    const metadata = await client.store({
-      name: title,
-      description: description,
-      image: new File([imageFile], imageFile.name.replace(/\s/g, ""), { type: imageFile.type }),
-      external_url: new File([mediaFile], mediaFile.name.replace(/\s/g, ""), {
-        type: mediaFile.type,
-      }),
-    });
+    let metadata;
+    try {
+      const metadata = await client.store({
+        name: title,
+        description: description,
+        image: new File([imageFile], imageFile.name.replace(/\s/g, ""), { type: imageFile.type }),
+        external_url: new File([mediaFile], mediaFile.name.replace(/\s/g, ""), {
+          type: mediaFile.type,
+        }),
+      });
+    } catch (error) {
+      console.error(error);
+    }
 
     setUploadPending(false);
-    setMetadataUrl(`https://nftstorage.link/ipfs/${metadata.url.substring(7)}`);
+    setMetadataUrl(`https://nftstorage.link/ipfs/${metadata?.url.substring(7)}`);
 
     setMintPending(true);
 
-    setGasLimit(await estimateL2GasCost(provider, config));
-
+    try {
+      setGasPrice(await estimateL2GasCost(provider, config));
+      setTotalGasCost(await estimateTotalGasCost(provider, config));
+      console.log(gasPrice, totalGasCost);
+    } catch (error) {
+      console.error(error);
+    }
+    console.log("Gas Price: ", gasPrice);
+    console.log("Total Gas Cost: ", totalGasCost);
+    console.log("Config: ", config);
     const tx = await write();
 
     setMintPending(false);
