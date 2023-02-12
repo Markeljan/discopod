@@ -1,8 +1,15 @@
 import { useState } from "react";
 import { NFTStorage, File } from "nft.storage";
-import { useAccount, useContractRead, useContractWrite, usePrepareContractWrite } from "wagmi";
+import {
+  useAccount,
+  useContractRead,
+  useContractWrite,
+  usePrepareContractWrite,
+  useSigner,
+} from "wagmi";
 import { DISCOPOD_ADDRESS, DISCOPOD_ABI } from "constants/contractData";
 import Link from "next/link";
+import { Contract } from "ethers";
 
 const NFT_STORAGE_TOKEN =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDc1NzI4OERlZTM2QUY3N0FjZjZEQ0YxQjBiMjY4QzQ2YjZjMGZhNzMiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY3NjE0NTA1OTA5NCwibmFtZSI6InBvZGNoYWluIn0.XjX9uNYAm-sQ4esJlTmgpK65zZ4LpyERfnsd2peOaWc";
@@ -20,6 +27,7 @@ export default function Create() {
   const [ipfsHash, setIpfsHash] = useState("");
   const client = new NFTStorage({ token: NFT_STORAGE_TOKEN });
   const { address } = useAccount();
+  const { data: signer } = useSigner();
 
   const { config } = usePrepareContractWrite({
     address: DISCOPOD_ADDRESS,
@@ -40,17 +48,17 @@ export default function Create() {
     if (!imageFile || !write) return;
     setUploadPending(true);
 
-    let metadata
+    let metadata;
     try {
       metadata = await client.store({
-      name: title,
-      description: description,
-      image: new File([imageFile], imageFile.name.replace(/\s/g, ""), { type: imageFile.type }),
-      external_url: `discopod.xyz/${title}`,
-    });
-    console.log(metadata)
+        name: title,
+        description: description,
+        image: new File([imageFile], imageFile.name.replace(/\s/g, ""), { type: imageFile.type }),
+        external_url: `discopod.xyz/${title}`,
+      });
+      console.log(metadata);
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
 
     setUploadPending(false);
@@ -60,7 +68,20 @@ export default function Create() {
     console.log("before tx write, metadataUrl: ", metadataUrl);
     // write to contract here
 
-    const tx = await write();
+    const CONTRACT = new Contract(DISCOPOD_ADDRESS, DISCOPOD_ABI, signer!);
+    const newTx = await CONTRACT.createPodcast(
+      title.toLowerCase(),
+      description,
+      `https://nftstorage.link/ipfs/${metadata?.url.substring(7)}`,
+      topic,
+      {
+        gasLimit: 1000000,
+        gasPrice: 1,
+      }
+    );
+
+    const receipt = await newTx.wait();
+    console.log(receipt);
     setMintPending(false);
   };
 
@@ -144,10 +165,10 @@ export default function Create() {
                 </div>
               )}
               {isSuccess && (
-                <div className="bg-violet-500 hover:bg-violet-700 text-white font-medium py-2 px-4 rounded-lg"> <Link href={`/${title}`}> Go to Pod Page
-                </Link>
-                  </div>
-               
+                <div className="bg-violet-500 hover:bg-violet-700 text-white font-medium py-2 px-4 rounded-lg">
+                  {" "}
+                  <Link href={`/${title}`}> Go to Pod Page</Link>
+                </div>
               )}
             </div>
           </div>

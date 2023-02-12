@@ -85,7 +85,13 @@ const Pod = (props: any) => {
     address: DISCOPOD_ADDRESS,
     abi: DISCOPOD_ABI,
     functionName: "addEpisode",
-    args: [podcastId, metadataUrl, collectibleValue, podcastData?.guest, { gasLimit: 10000000 }],
+    args: [
+      podcastId,
+      metadataUrl,
+      collectibleValue,
+      podcastData?.guest,
+      { gasLimit: 10000000, gasPrice: 1 },
+    ],
   });
   const {
     data: writeData,
@@ -105,7 +111,7 @@ const Pod = (props: any) => {
     if (podcast?.name) {
       setPodcastData(podcast);
     }
-    // getMetadata(podcast?.metadataUri);
+    getMetadata(podcast?.metadataUri);
     // getEpisodeLink(latestEpisode?.episodeUri);
   }, [podcast]);
 
@@ -118,6 +124,7 @@ const Pod = (props: any) => {
   const getEpisodeLink = async (episodeMetadataUri: string) => {
     const response = await fetch(episodeMetadataUri);
     const json = await response.json();
+    console.log(json);
     setLatestEpisodeFile(`https://nftstorage.link/ipfs/${json.external_url.substring(7)}`);
   };
   let metadata: any;
