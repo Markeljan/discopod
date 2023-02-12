@@ -79,7 +79,7 @@ const Pod = (props: any) => {
   const { data: signer } = useSigner();
   const [gasPrice, setGasPrice] = useState<BigNumber>(BigNumber.from(53000));
   const [totalGasCost, setTotalGasCost] = useState<BigNumber>(BigNumber.from(1000000));
-  const [latestEpisodeFile, setLatestEpisodeFile] = useState("");
+  const [latestEpisodeFile, setLatestEpisodeFile] = useState<any>("");
 
   const { config } = usePrepareContractWrite({
     address: DISCOPOD_ADDRESS,
@@ -112,7 +112,7 @@ const Pod = (props: any) => {
       setPodcastData(podcast);
     }
     getMetadata(podcast?.metadataUri);
-    // getEpisodeLink(latestEpisode?.episodeUri);
+    if (latestEpisode?.episodeUri) getEpisodeLink(latestEpisode?.episodeUri);
   }, [podcast]);
 
   const getMetadata = async (podcastMetadataUri: string) => {
@@ -122,7 +122,9 @@ const Pod = (props: any) => {
   };
 
   const getEpisodeLink = async (episodeMetadataUri: string) => {
-    const response = await fetch(episodeMetadataUri);
+    const response = await fetch(
+      `https://nftstorage.link/ipfs/${latestEpisode.episodeUri.substring(7)}`
+    );
     const json = await response.json();
     console.log(json);
     setLatestEpisodeFile(`https://nftstorage.link/ipfs/${json.external_url.substring(7)}`);
@@ -207,7 +209,14 @@ const Pod = (props: any) => {
         </div>
         <div>
           <h2 className="text-2xl font-bold mb-6">Episodes</h2>
-          {latestEpisodeFile && <a href={latestEpisodeFile}>Latest Episode</a>}
+          {latestEpisode && (
+            <Link
+              href={`https://nftstorage.link/ipfs/${latestEpisode.episodeUri.substring(7)}`}
+              target="_blank"
+            >
+              <p>{latestEpisode.episodeUri}</p>
+            </Link>
+          )}
         </div>
         <div hidden={!podcastData?.name || podcastData?.host !== address}>
           <form onSubmit={handleSubmit} className="p-6 rounded-lg shadow-md">
