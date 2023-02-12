@@ -40,7 +40,6 @@
             }
           },
           "evmVersion": "london",
-          "viaIR": true,
           "libraries": {}
         }
       },
@@ -81,7 +80,6 @@
             }
           },
           "evmVersion": "london",
-          "viaIR": true,
           "libraries": {}
         }
       },
@@ -99,59 +97,6 @@
         },
         "TestBase": {
           "0.8.17+commit.8df45f5f.Darwin.appleclang": "Base.sol/TestBase.json"
-        }
-      }
-    },
-    "lib/forge-std/src/Script.sol": {
-      "lastModificationDate": 1676059604678,
-      "contentHash": "83c39354c1e43190bce4dc43860dc786",
-      "sourceName": "lib/forge-std/src/Script.sol",
-      "solcConfig": {
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 200
-          },
-          "metadata": {
-            "bytecodeHash": "ipfs",
-            "appendCBOR": true
-          },
-          "outputSelection": {
-            "*": {
-              "": [
-                "ast"
-              ],
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ]
-            }
-          },
-          "evmVersion": "london",
-          "viaIR": true,
-          "libraries": {}
-        }
-      },
-      "imports": [
-        "lib/forge-std/src/Base.sol",
-        "lib/forge-std/src/StdChains.sol",
-        "lib/forge-std/src/StdCheats.sol",
-        "lib/forge-std/src/StdJson.sol",
-        "lib/forge-std/src/StdMath.sol",
-        "lib/forge-std/src/StdStorage.sol",
-        "lib/forge-std/src/StdUtils.sol",
-        "lib/forge-std/src/Vm.sol",
-        "lib/forge-std/src/console.sol",
-        "lib/forge-std/src/console2.sol",
-        "lib/forge-std/src/interfaces/IMulticall3.sol"
-      ],
-      "versionRequirement": ">=0.6.2, <0.9.0",
-      "artifacts": {
-        "Script": {
-          "0.8.17+commit.8df45f5f.Darwin.appleclang": "Script.sol/Script.json"
         }
       }
     },
@@ -184,7 +129,6 @@
             }
           },
           "evmVersion": "london",
-          "viaIR": true,
           "libraries": {}
         }
       },
@@ -228,7 +172,6 @@
             }
           },
           "evmVersion": "london",
-          "viaIR": true,
           "libraries": {}
         }
       },
@@ -271,7 +214,6 @@
             }
           },
           "evmVersion": "london",
-          "viaIR": true,
           "libraries": {}
         }
       },
@@ -318,7 +260,6 @@
             }
           },
           "evmVersion": "london",
-          "viaIR": true,
           "libraries": {}
         }
       },
@@ -359,7 +300,6 @@
             }
           },
           "evmVersion": "london",
-          "viaIR": true,
           "libraries": {}
         }
       },
@@ -402,7 +342,6 @@
             }
           },
           "evmVersion": "london",
-          "viaIR": true,
           "libraries": {}
         }
       },
@@ -443,7 +382,6 @@
             }
           },
           "evmVersion": "london",
-          "viaIR": true,
           "libraries": {}
         }
       },
@@ -489,7 +427,6 @@
             }
           },
           "evmVersion": "london",
-          "viaIR": true,
           "libraries": {}
         }
       },
@@ -533,7 +470,6 @@
             }
           },
           "evmVersion": "london",
-          "viaIR": true,
           "libraries": {}
         }
       },
@@ -589,7 +525,6 @@
             }
           },
           "evmVersion": "london",
-          "viaIR": true,
           "libraries": {}
         }
       },
@@ -633,7 +568,6 @@
             }
           },
           "evmVersion": "london",
-          "viaIR": true,
           "libraries": {}
         }
       },
@@ -674,7 +608,6 @@
             }
           },
           "evmVersion": "london",
-          "viaIR": true,
           "libraries": {}
         }
       },
@@ -715,7 +648,6 @@
             }
           },
           "evmVersion": "london",
-          "viaIR": true,
           "libraries": {}
         }
       },
@@ -756,7 +688,6 @@
             }
           },
           "evmVersion": "london",
-          "viaIR": true,
           "libraries": {}
         }
       },
@@ -771,63 +702,9 @@
         }
       }
     },
-    "script/Podcast.s.sol": {
-      "lastModificationDate": 1676143247205,
-      "contentHash": "2465f956cec7fb499a42d086684bafb0",
-      "sourceName": "script/Podcast.s.sol",
-      "solcConfig": {
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 200
-          },
-          "metadata": {
-            "bytecodeHash": "ipfs",
-            "appendCBOR": true
-          },
-          "outputSelection": {
-            "*": {
-              "": [
-                "ast"
-              ],
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ]
-            }
-          },
-          "evmVersion": "london",
-          "viaIR": true,
-          "libraries": {}
-        }
-      },
-      "imports": [
-        "lib/forge-std/src/Base.sol",
-        "lib/forge-std/src/Script.sol",
-        "lib/forge-std/src/StdChains.sol",
-        "lib/forge-std/src/StdCheats.sol",
-        "lib/forge-std/src/StdJson.sol",
-        "lib/forge-std/src/StdMath.sol",
-        "lib/forge-std/src/StdStorage.sol",
-        "lib/forge-std/src/StdUtils.sol",
-        "lib/forge-std/src/Vm.sol",
-        "lib/forge-std/src/console.sol",
-        "lib/forge-std/src/console2.sol",
-        "lib/forge-std/src/interfaces/IMulticall3.sol"
-      ],
-      "versionRequirement": "^0.8.13",
-      "artifacts": {
-        "PodcastScript": {
-          "0.8.17+commit.8df45f5f.Darwin.appleclang": "Podcast.s.sol/PodcastScript.json"
-        }
-      }
-    },
     "src/Pod.sol": {
-      "lastModificationDate": 1676158689199,
-      "contentHash": "7918ca954ac069cd9b8a4077e2672228",
+      "lastModificationDate": 1676167894102,
+      "contentHash": "300fa718c6074569370a71c856b14d60",
       "sourceName": "src/Pod.sol",
       "solcConfig": {
         "settings": {
@@ -854,7 +731,6 @@
             }
           },
           "evmVersion": "london",
-          "viaIR": true,
           "libraries": {}
         }
       },
@@ -868,50 +744,9 @@
         }
       }
     },
-    "src/Podcast.sol": {
-      "lastModificationDate": 1676143161782,
-      "contentHash": "db0e8061223c141bb7faa6513f7f265d",
-      "sourceName": "src/Podcast.sol",
-      "solcConfig": {
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 200
-          },
-          "metadata": {
-            "bytecodeHash": "ipfs",
-            "appendCBOR": true
-          },
-          "outputSelection": {
-            "*": {
-              "": [
-                "ast"
-              ],
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ]
-            }
-          },
-          "evmVersion": "london",
-          "viaIR": true,
-          "libraries": {}
-        }
-      },
-      "imports": [],
-      "versionRequirement": "^0.8.13",
-      "artifacts": {
-        "Podcast": {
-          "0.8.17+commit.8df45f5f.Darwin.appleclang": "Podcast.sol/Podcast.json"
-        }
-      }
-    },
     "test/Pod.t.sol": {
-      "lastModificationDate": 1676153951558,
-      "contentHash": "e015a42a618a55a99dd1ade419e6ae52",
+      "lastModificationDate": 1676167728434,
+      "contentHash": "4ae67f035d9ba3af1496710ee5a3d5d4",
       "sourceName": "test/Pod.t.sol",
       "solcConfig": {
         "settings": {
@@ -938,7 +773,6 @@
             }
           },
           "evmVersion": "london",
-          "viaIR": true,
           "libraries": {}
         }
       },
@@ -957,7 +791,9 @@
         "lib/forge-std/src/Vm.sol",
         "lib/forge-std/src/console.sol",
         "lib/forge-std/src/console2.sol",
-        "lib/forge-std/src/interfaces/IMulticall3.sol"
+        "lib/forge-std/src/interfaces/IMulticall3.sol",
+        "lib/solmate/src/tokens/ERC1155.sol",
+        "src/Pod.sol"
       ],
       "versionRequirement": "^0.8.13",
       "artifacts": {
