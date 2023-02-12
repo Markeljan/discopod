@@ -55,13 +55,12 @@ const Pod = (props: any) => {
   });
   const { address } = useAccount();
 
-  const { data: podcast }: { data: any } = useContractRead({
+  const { data: podcast, isLoading: podcastDataLoading }:{data: any, isLoading: boolean} = useContractRead({
     address: DISCOPOD_ADDRESS,
     abi: DISCOPOD_ABI,
     functionName: "podcastIdToPodcast",
     args: [podcastId],
   });
-
   const [podcastData, setPodcastData] = useState<any>({});
 
   const client = new NFTStorage({ token: NFT_STORAGE_TOKEN });
@@ -73,6 +72,7 @@ const Pod = (props: any) => {
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [mediaFile, setMediaFile] = useState<File | null>(null);
   const [metadataUrl, setMetadataUrl] = useState("");
+  const [podcastMetadataObject, setPodcastMetadataObject] = useState("")
   const provider = useProvider();
   const [gasPrice, setGasPrice] = useState<BigNumber>(BigNumber.from(53000));
   const [totalGasCost, setTotalGasCost] = useState<BigNumber>(BigNumber.from(1000000));
@@ -107,7 +107,14 @@ const Pod = (props: any) => {
     if (podcast?.name) {
       setPodcastData(podcast);
     }
+    getMetadata(podcast?.metadataUri)
   }, [podcast]);
+
+  const getMetadata = async (podcastMetadataUri: string) => {
+    const response = await fetch(podcastMetadataUri);
+    const json = await response.json();
+    setPodcastMetadataObject(`https://nftstorage.link/ipfs/${json.image.substring(7)}`);
+  }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -152,7 +159,7 @@ const Pod = (props: any) => {
     <div className=" bg-gray-100 p-6">
       <div className="flex flex-col max-w-6xl w-full mx-auto p-6">
         <div className="bg-primary.dark p-6 rounded-lg shadow-md">
-          {!podcastData?.name && (
+          {podcastDataLoading && (
             <>
               <h2 className="text-2xl font-bold mb-6">
                 Podcast Does not exist... Yet! Make it yourself!
@@ -166,9 +173,13 @@ const Pod = (props: any) => {
             </>
           )}
           <h2 className="text-2xl font-bold mb-6">{podcastData?.name?.toUpperCase()}</h2>
+            <img src={podcastMetadataObject} width={50} height={50} />
           <p>{podcastData?.description}</p>
-          <p>{podcastData?.topic}</p>
+          <p>Topic: {podcastData?.topic}</p>
           <p>{podcastData?.host?.substring(0, 8)}</p>
+        </div>
+        <div>
+          <h2 className="text-2xl font-bold mb-6">Episodes</h2>
         </div>
         <div hidden={!podcastData?.name || podcastData?.host !== address}>
           <form onSubmit={handleSubmit} className="p-6 rounded-lg shadow-md">
@@ -225,11 +236,11 @@ const Pod = (props: any) => {
                 />
               </div>
 
-              <div className="flex justify-center items-center w-full border-2 border-solid border-gray-400 rounded-lg">
+              <div className="flex items-center w-full rounded-lg">
                 {
                   <button
                     disabled={uploadPending || mintPending}
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg"
+                    className="bg-violet-500 hover:bg-violet-700 text-white font-medium py-2 px-4 rounded-lg"
                   >
                     {metadataUrl && writeData
                       ? "Mint Successful"
