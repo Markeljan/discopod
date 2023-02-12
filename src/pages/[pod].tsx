@@ -113,7 +113,7 @@ const Pod = (props: any) => {
     }
     getMetadata(podcast?.metadataUri);
     if (latestEpisode?.episodeUri) getEpisodeLink(latestEpisode?.episodeUri);
-  }, [podcast]);
+  }, [podcast, latestEpisode]);
 
   const getMetadata = async (podcastMetadataUri: string) => {
     const response = await fetch(podcastMetadataUri);
