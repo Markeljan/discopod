@@ -26,10 +26,10 @@ export default function Home() {
 
         <div className="flex flex-row justify-between ">
           <PodcastCard
-            title="Justice & Peace"
+            title="Carbon Credits in Web3"
             hostName="mark.eth"
             guestName="mike.eth"
-            topic="Justice & Peace"
+            topic="Carbon Credits in Web3"
             fundGoal={250}
             fundRaised={220}
           />

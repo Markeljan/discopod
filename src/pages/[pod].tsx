@@ -123,7 +123,7 @@ const Pod = (props: any) => {
 
   const getEpisodeLink = async (episodeMetadataUri: string) => {
     const response = await fetch(
-      `https://nftstorage.link/ipfs/${latestEpisode.episodeUri.substring(7)}`
+      `https://nftstorage.link/ipfs/${latestEpisode?.episodeUri?.substring(7)}`
     );
     const json = await response.json();
     console.log("DATAA", json);
@@ -217,6 +217,7 @@ const Pod = (props: any) => {
               >
                 <p>{latestEpisode.episodeUri}</p>
               </Link>
+
               <Link
                 href={`https://nftstorage.link/ipfs/${latestEpisodeFile.substring(7)}`}
                 target="_blank"
