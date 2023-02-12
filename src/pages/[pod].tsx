@@ -1,4 +1,3 @@
-import Navbar from "@/components/Navbar";
 import { DISCOPOD_ADDRESS, DISCOPOD_ABI } from "constants/contractData";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -129,8 +128,7 @@ const Pod = (props: any) => {
   console.log(podcastData);
 
   return (
-    <div className=" bg-primary p-6 bg">
-      <Navbar />
+    <div className=" bg-gray-100 p-6">
       <div className="flex flex-col max-w-6xl w-full mx-auto p-6">
         <div className="bg-primary.dark p-6 rounded-lg shadow-md">
           {!podcastData?.name && (
