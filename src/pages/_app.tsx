@@ -33,7 +33,7 @@ const mantleTestnet: Chain = {
 const { chains, provider } = configureChains([mantleTestnet], [publicProvider()]);
 
 const { connectors } = getDefaultWallets({
-  appName: "Podchain",
+  appName: "DiscoPod",
   chains,
 });
 
@@ -47,7 +47,7 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <WagmiConfig client={wagmiClient}>
       <RainbowKitProvider chains={chains}>
-      <Navbar />
+        <Navbar />
         <Component {...pageProps} />
       </RainbowKitProvider>
     </WagmiConfig>

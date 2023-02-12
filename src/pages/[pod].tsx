@@ -89,7 +89,8 @@ const Pod = (props: any) => {
     address: DISCOPOD_ADDRESS,
     abi: DISCOPOD_ABI,
     functionName: "episodeIdToEpisode",
-    args: [podcastData?.latestEpisodeId],
+    args: [13],
+    // args: [podcastData?.latestEpisodeId],
   });
 
   console.log("latestEipsode", latestEpisode);

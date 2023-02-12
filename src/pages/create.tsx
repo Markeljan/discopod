@@ -64,9 +64,9 @@ export default function Create() {
      p-6"
       >
         <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-md">
-          <h2 className="text-2xl font-bold mb-6">Mint a Podchain</h2>
+          <h2 className="text-2xl font-bold mb-6">Mint a Pod</h2>
           <div className="mb-4">
-            <label className="block font-medium mb-2">Podchain title:</label>
+            <label className="block font-medium mb-2">Pod title:</label>
             <input
               type="text"
               required
