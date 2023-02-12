@@ -74,20 +74,14 @@ const Pod = (props: any) => {
   const [mediaFile, setMediaFile] = useState<File | null>(null);
   const [metadataUrl, setMetadataUrl] = useState("");
   const provider = useProvider();
-  const [gasPrice, setGasPrice] = useState<BigNumber>(BigNumber.from(53000));
-  const [totalGasCost, setTotalGasCost] = useState<BigNumber>(BigNumber.from(1000000));
+  const [gasPrice, setGasPrice] = useState<BigNumber>(BigNumber.from(1));
+  const [totalGasCost, setTotalGasCost] = useState<BigNumber>(BigNumber.from(10000000));
 
   const { config } = usePrepareContractWrite({
     address: DISCOPOD_ADDRESS,
     abi: DISCOPOD_ABI,
     functionName: "addEpisode",
-    args: [
-      podcastId,
-      metadataUrl,
-      collectibleValue,
-      podcastData?.guest,
-      { gasLimit: totalGasCost, gasPrice: gasPrice },
-    ],
+    args: [podcastId, metadataUrl, collectibleValue, podcastData?.guest, { gasLimit: 10000000 }],
   });
   const {
     data: writeData,
@@ -133,13 +127,17 @@ const Pod = (props: any) => {
 
     setMintPending(true);
 
+    let gasCost = BigNumber.from(10000000);
     try {
-      setGasPrice(await estimateL2GasCost(provider, config));
-      setTotalGasCost(await estimateTotalGasCost(provider, config));
-      console.log(gasPrice, totalGasCost);
+      gasCost = await estimateTotalGasCost(provider, config);
     } catch (error) {
       console.error(error);
     }
+
+    // setGasPrice(await estimateL2GasCost(provider, config));
+    // setTotalGasCost(gasCost);
+    console.log(gasPrice, totalGasCost);
+
     console.log("Gas Price: ", gasPrice);
     console.log("Total Gas Cost: ", totalGasCost);
     console.log("Config: ", config);
