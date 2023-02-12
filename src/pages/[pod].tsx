@@ -1,4 +1,4 @@
-import Navbar from "components/Navbar";
+import Navbar from "@/components/Navbar";
 import { DISCOPOD_ADDRESS, DISCOPOD_ABI } from "constants/contractData";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";

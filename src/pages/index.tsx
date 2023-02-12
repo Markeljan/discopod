@@ -1,5 +1,5 @@
 import { Inter } from "@next/font/google";
-import Navbar from "components/Navbar";
+import Navbar from "@/components/Navbar";
 import { BigNumber } from "ethers";
 import { usePrepareSendTransaction, useSendTransaction } from "wagmi";
 
