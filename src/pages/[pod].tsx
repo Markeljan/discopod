@@ -99,8 +99,6 @@ const Pod = (props: any) => {
     args: [podcastData?.latestEpisodeId],
   });
 
-  console.log("latest: ", latestEpisode);
-
   useEffect(() => {
     if (podcast?.name) {
       setPodcastData(podcast);
@@ -125,7 +123,7 @@ const Pod = (props: any) => {
     e.preventDefault();
     if (!imageFile || !mediaFile || !write) return;
     setUploadPending(true);
-
+    console.log(podcast);
     let metadata;
     try {
       metadata = await client.store({
@@ -140,6 +138,7 @@ const Pod = (props: any) => {
       console.error(error);
     }
     console.log("meta", metadata);
+    console.log(`https://nftstorage.link/ipfs/${metadata?.url.substring(7)}`);
     setUploadPending(false);
     setMetadataUrl(`https://nftstorage.link/ipfs/${metadata?.url.substring(7)}`);
 
@@ -151,19 +150,11 @@ const Pod = (props: any) => {
     } catch (error) {
       console.error(error);
     }
-
-    // setGasPrice(await estimateL2GasCost(provider, config));
-    // setTotalGasCost(gasCost);
-    console.log(gasPrice, totalGasCost);
-
-    console.log("Gas Price: ", gasPrice);
-    console.log("Total Gas Cost: ", totalGasCost);
-    console.log("Config: ", config);
     const tx = await write();
 
     setMintPending(false);
   };
-  console.log("file", latestEpisodeFile);
+
   return (
     <div className=" bg-gray-100 p-6">
       <div className="flex flex-col max-w-6xl w-full mx-auto p-6">
