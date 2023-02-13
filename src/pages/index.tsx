@@ -3,19 +3,19 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="h-full min-h-screen bg-black">
-      <div className="flex flex-col p-4 mx-auto gap-4">
-        <div className="md:flex-row xs:flex-col justify-between h-80 md:px-20">
-          <div className="flex flex-col gap-4">
-            <p className="text-white text-4xl w-80">JOIN THE PUBLIC DISCOURSE</p>
+    <div className="h-full min-h-screen bg-black flex flex-col px-10 gap-8 items-center lg:items-stretch justify-evenly">
+      {/* <div className="flex flex-col p-4 mx-auto gap-4 items-center lg:items-stretch h-full"> */}
+        <div className="flex justify-between flex-col lg:flex-row lg:justify-between gap-8">
+          <div className="flex flex-col gap-4 items-center lg:items-start">
+            <p className="text-white text-4xl w-80 text-center lg:text-left">JOIN THE PUBLIC DISCOURSE</p>
             <Link href="https://twitter.com/discopodxyz" target="_blank">
               <button className="w-40 rounded-md text-white text-center bg-violet-500 p-2">
                 JOIN THE DISCO
               </button>
             </Link>
           </div>
-          <div className="flex flex-col gap-4 items-end my-10">
-            <p className="text-white text-4xl w-80 text-right"> DISCO POD FOR PUBLIC GOODS</p>
+          <div className="flex flex-col gap-4 items-center lg:items-end">
+            <p className="text-white text-4xl w-80 lg:text-right text-center"> DISCO POD FOR PUBLIC GOODS</p>
             <Link href="/create">
               <button className="w-60 rounded-md text-white text-center bg-violet-500 p-2">
                 CREATE A PODCAST
@@ -24,7 +24,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="md:flex md:flex-row xs:flex-col justify-between ">
+        <div className="flex lg:flex lg:flex-row flex-col justify-between items-center lg:items-stretch gap-2">
           <PodcastCard
             title="Carbon Credits in Web3"
             hostName="mark.eth"
@@ -50,7 +50,7 @@ export default function Home() {
             fundRaised={450}
           />
         </div>
-      </div>
+      {/* </div> */}
     </div>
   );
 }
