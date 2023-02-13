@@ -1,12 +1,13 @@
 import { PodcastCard } from "@/components/PodcastCard";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Home() {
   return (
-    <div className="h-full min-h-screen bg-black flex flex-col px-10 gap-8 items-center lg:items-stretch justify-evenly">
+    <div className="h-full min-h-screen bg-black flex flex-col px-10 gap-8 items-center lg:items-stretch justify-between">
       {/* <div className="flex flex-col p-4 mx-auto gap-4 items-center lg:items-stretch h-full"> */}
         <div className="flex justify-between flex-col lg:flex-row lg:justify-between gap-8">
-          <div className="flex flex-col gap-4 items-center lg:items-start">
+          <div className="flex flex-col gap-4 items-center lg:items-start py-10">
             <p className="text-white text-4xl w-80 text-center lg:text-left">JOIN THE PUBLIC DISCOURSE</p>
             <Link href="https://twitter.com/discopodxyz" target="_blank">
               <button className="w-40 rounded-md text-white text-center bg-violet-500 p-2">
@@ -14,7 +15,10 @@ export default function Home() {
               </button>
             </Link>
           </div>
-          <div className="flex flex-col gap-4 items-center lg:items-end">
+          <div className="flex order-first lg:order-none justify-center">
+            <Image alt="discopod logo" src="/discopodlogov0.svg" width={300} height={300}/>
+          </div>
+          <div className="flex flex-col gap-4 items-center lg:items-end py-10">
             <p className="text-white text-4xl w-80 lg:text-right text-center"> DISCO POD FOR PUBLIC GOODS</p>
             <Link href="/create">
               <button className="w-60 rounded-md text-white text-center bg-violet-500 p-2">
@@ -24,7 +28,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="flex lg:flex lg:flex-row flex-col justify-between items-center lg:items-stretch gap-2">
+        <div className="flex lg:flex lg:flex-row flex-col justify-between items-center lg:items-stretch gap-2 py-10">
           <PodcastCard
             title="Carbon Credits in Web3"
             hostName="mark.eth"
