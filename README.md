@@ -2,8 +2,14 @@
 
 This is the official Good Hacks submission for the DiscoPod project.
 
+## About
+Funding Discourse Podcasts for Public Good.
+Listen to discourse, contribute to the cause. 
+Mint a pod, become a host, choose a topic, fund a cause.
+Build a personal brand through engaging community discourse.
+
 ## Project Description
-Funding Discourse Podcasts for Public Good
+This project was hacked together over a 3 day weekend from February 9-12. Built on Next.js and Foundry we used Solidity to build the smart contract, and Typescript to create the website.
 ## Getting Started
 
 ### Client
