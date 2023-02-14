@@ -215,7 +215,7 @@ const Pod = (props: any) => {
                 href={`https://nftstorage.link/ipfs/${latestEpisode.episodeUri.substring(7)}`}
                 target="_blank"
               >
-                <p>{latestEpisode.episodeUri}</p>
+                <p>{latestEpisode.episodeUri.substring(0, 8)}</p>
               </Link>
 
               <Link
