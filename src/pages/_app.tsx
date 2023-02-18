@@ -1,5 +1,5 @@
 import "@/styles/globals.css";
-import { ChakraProvider } from '@chakra-ui/react'
+import { ChakraProvider } from "@chakra-ui/react";
 import type { AppProps } from "next/app";
 import "@rainbow-me/rainbowkit/styles.css";
 import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
@@ -27,7 +27,10 @@ const mantleTestnet: Chain = {
   },
 
   blockExplorers: {
-    default: { name: "explorer.mantle", url: "https://explorer.testnet.mantle.xyz" },
+    default: {
+      name: "explorer.mantle",
+      url: "https://explorer.testnet.mantle.xyz",
+    },
   },
   testnet: true,
 };
@@ -58,14 +61,12 @@ const wagmiClient = createClient({
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <ChakraProvider>
-
-   
-    <WagmiConfig client={wagmiClient}>
-      <RainbowKitProvider chains={chains}>
-        <Navbar />
-        <Component {...pageProps} />
-      </RainbowKitProvider>
-    </WagmiConfig>
-     </ChakraProvider>
+      <WagmiConfig client={wagmiClient}>
+        <RainbowKitProvider chains={chains}>
+          <Navbar />
+          <Component {...pageProps} />
+        </RainbowKitProvider>
+      </WagmiConfig>
+    </ChakraProvider>
   );
 }
