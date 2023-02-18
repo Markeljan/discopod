@@ -1,4 +1,4 @@
-# Good Hacks 2023 - DiscoPod
+# DiscoPod - Good Hacks 2023 - DiscoPod
 
 This is the official Good Hacks submission for the DiscoPod project.
 
