@@ -1,4 +1,5 @@
 import "@/styles/globals.css";
+import { ChakraProvider } from '@chakra-ui/react'
 import type { AppProps } from "next/app";
 import "@rainbow-me/rainbowkit/styles.css";
 import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
@@ -56,11 +57,15 @@ const wagmiClient = createClient({
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
+    <ChakraProvider>
+
+   
     <WagmiConfig client={wagmiClient}>
       <RainbowKitProvider chains={chains}>
         <Navbar />
         <Component {...pageProps} />
       </RainbowKitProvider>
     </WagmiConfig>
+     </ChakraProvider>
   );
 }

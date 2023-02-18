@@ -1,60 +1,109 @@
 import { PodcastCard } from "@/components/PodcastCard";
 import Link from "next/link";
 import Image from "next/image";
+import { Text, Flex, Button } from "@chakra-ui/react";
 
 export default function Home() {
   return (
-    <div className="h-full min-h-screen bg-black flex flex-col px-10 gap-8 items-center lg:items-stretch justify-between">
-      {/* <div className="flex flex-col p-4 mx-auto gap-4 items-center lg:items-stretch h-full"> */}
-        <div className="flex justify-between flex-col lg:flex-row lg:justify-between gap-8">
-          <div className="flex flex-col gap-4 items-center lg:items-start py-10">
-            <p className="text-white text-4xl w-80 text-center lg:text-left">JOIN THE PUBLIC DISCOURSE</p>
-            <Link href="https://twitter.com/discopodxyz" target="_blank">
-              <button className="w-40 rounded-md text-white text-center bg-violet-500 p-2">
-                JOIN THE DISCO
-              </button>
-            </Link>
-          </div>
-          <div className="flex order-first lg:order-none justify-center">
-            <Image alt="discopod logo" src="/discopodlogov0.svg" width={300} height={300}/>
-          </div>
-          <div className="flex flex-col gap-4 items-center lg:items-end py-10">
-            <p className="text-white text-4xl w-80 lg:text-right text-center"> DISCO POD FOR PUBLIC GOODS</p>
-            <Link href="/create">
-              <button className="w-60 rounded-md text-white text-center bg-violet-500 p-2">
-                CREATE A PODCAST
-              </button>
-            </Link>
-          </div>
-        </div>
+    <Flex
+      minH="full"
+      h="full"
+      backgroundColor="black"
+      paddingX="10"
+      gap={8}
+      alignItems={{ base: "center", lg: "stretch" }}
+      justifyContent="space-between"
+      flexDirection="column"
+    >
+      <Flex
+        justify="space-between"
+        flexDirection={{ base: "column", lg: "row" }}
+        gap={8}
+      >
+        <Flex
+          gap={4}
+          flexDirection="column"
+          alignItems={{ base: "center", lg: "start" }}
+          paddingY={10}
+        >
+          <Text
+            fontSize="4xl"
+            fontWeight="medium"
+            color="white"
+            textAlign={{ base: "center", lg: "left" }}
+            maxW="80"
+          >
+            JOIN THE PUBLIC DISCOURSE
+          </Text>
+          <Link href="https://twitter.com/discopodxyz" target="_blank">
+            <Button colorScheme="purple" borderRadius="md">
+              JOIN THE DISCO
+            </Button>
+          </Link>
+        </Flex>
 
-        <div className="flex lg:flex lg:flex-row flex-col justify-between items-center lg:items-stretch gap-2 py-10">
-          <PodcastCard
-            title="Carbon Credits in Web3"
-            hostName="mark.eth"
-            guestName="mike.eth"
-            topic="Carbon Credits in Web3"
-            fundGoal={250}
-            fundRaised={220}
+        <Flex order={{ base: "first", lg: "none" }} justifyItems="center">
+          <Image
+            alt="discopod logo"
+            src="/discopodlogov0.svg"
+            width={300}
+            height={300}
           />
-          <PodcastCard
-            title="Ocean Cleaning"
-            hostName="mary.eth"
-            guestName="mike.eth"
-            topic="Ocean Cleaning"
-            fundGoal={500}
-            fundRaised={450}
-          />
-          <PodcastCard
-            title="Climate Tech"
-            hostName="naama.eth"
-            guestName="mike.eth"
-            topic="Climate Tech"
-            fundGoal={1000}
-            fundRaised={450}
-          />
-        </div>
-      {/* </div> */}
-    </div>
+        </Flex>
+
+        <Flex
+          gap={4}
+          flexDirection="column"
+          alignItems={{ base: "center", lg: "end" }}
+          paddingY={10}
+        >
+          <Text
+            fontSize="4xl"
+            fontWeight="medium"
+            color="white"
+            textAlign={{ base: "center", lg: "right" }}
+            maxW="80"
+          >
+            DISCO POD FOR PUBLIC GOODS
+          </Text>
+          <Link href="/create">
+            <Button colorScheme="purple">CREATE A PODCAST</Button>
+          </Link>
+        </Flex>
+      </Flex>
+
+      <Flex
+        flexDirection={{ base: "column", lg: "row" }}
+        justify="space-between"
+        alignItems={{ base: "center", lg: "stretch" }}
+        gap={8}
+        paddingY={10}
+      >
+        <PodcastCard
+          title="Carbon Credits in Web3"
+          hostName="mark.eth"
+          guestName="mike.eth"
+          topic="Carbon Credits in Web3"
+          fundGoal={250}
+          fundRaised={220}
+        />
+        <PodcastCard
+          title="Ocean Cleaning"
+          hostName="mary.eth"
+          guestName="mike.eth"
+          topic="Ocean Cleaning"
+          fundGoal={500}
+          fundRaised={450}
+        />
+        <PodcastCard
+          title="Climate Tech"
+          hostName="naama.eth"
+          guestName="mike.eth"
+          topic="Climate Tech"
+          fundGoal={1000}
+          fundRaised={450}
+        />
+      </Flex>
+    </Flex>
   );
 }
