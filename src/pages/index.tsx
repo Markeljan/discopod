@@ -42,7 +42,7 @@ export default function Home() {
           </Link>
         </Flex>
 
-        <Flex order={{ base: "first", lg: "none" }} justifyItems="center">
+        <Flex order={{ base: "first", lg: "none" }}   justifyItems="center">
           <Image
             alt="discopod logo"
             src="/discopodlogov0.svg"
