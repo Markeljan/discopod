@@ -1,34 +1,36 @@
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import Link from "next/link";
-import { useRouter } from "next/router";
-
+import { Flex, Container, Text } from "@chakra-ui/react";
 export default function Navbar() {
-  const router = useRouter();
-
   return (
-    <div>
-      <nav className="bg-white w-full py-2">
-        <ul className="flex justify-center items-center">
-          <li className="w-1/2 flex justify-start items-center px-4 gap-4">
+    <Container width="full" maxWidth="full" paddingY={2}>
+      <Flex justify="center" alignItems="center" w="full">
+        <Flex w="50%" justify="start" alignItems="center" paddingX={4} gap={4}>
+          <Flex justify="start">
             <Link href="/">
-              <button className="text-black hover:text-slate-600 font-bold">Disco Pod</button>
+              <Text fontWeight="bold" _hover={{ color: "blackAlpha.700" }}>
+                Disco Pod
+              </Text>
             </Link>
-          </li>
-          <div className="w-1/2 flex justify-end items-center px-4 gap-4 ">
-            <li className="mx-3  rounded-xl bg-gray-100 hover:bg-gray-200  p-2 ">
-              <Link href="/create">
-                <button className="text-black hover:text-slate-800 font-bold bg-none">
-                  Create
-                </button>
-              </Link>
-            </li>
+          </Flex>
+        </Flex>
+        <Flex w="50%" alignItems="center" justify="end" paddingX={2} gap={4}>
+          <Flex
+            marginX={4}
+            borderRadius="xl"
+            bgColor="blackAlpha.100"
+            _hover={{ bgColor: "blackAlpha.200" }}
+          >
+            <Link href="/create">
+              <Text fontWeight="bold" p={2}>
+                Create
+              </Text>
+            </Link>
+          </Flex>
 
-            <li>
-              <ConnectButton />
-            </li>
-          </div>
-        </ul>
-      </nav>
-    </div>
+          <ConnectButton />
+        </Flex>
+      </Flex>
+    </Container>
   );
 }
