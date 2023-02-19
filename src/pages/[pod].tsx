@@ -26,6 +26,7 @@ import {
   Stack,
   Text,
   Textarea,
+  useMediaQuery,
 } from "@chakra-ui/react";
 
 import ReactPlayer from "react-player";
@@ -96,6 +97,10 @@ const Pod = (props: any) => {
   const [gasPrice, setGasPrice] = useState<BigNumber>(BigNumber.from(53000));
   const [totalGasCost, setTotalGasCost] = useState<BigNumber>(BigNumber.from(1000000));
   const [latestEpisodeFile, setLatestEpisodeFile] = useState<any>("");
+  const [isLargerThan800] = useMediaQuery("(min-width: 800px)", {
+    ssr: true,
+    fallback: false, // return false on the server, and re-evaluate on the client side
+  });
 
   const { config } = usePrepareContractWrite({
     address: DISCOPOD_ADDRESS,
@@ -238,11 +243,17 @@ const Pod = (props: any) => {
           </Heading>
           {latestEpisode && (
             <>
+              {isLargerThan800}
+              <ReactPlayer
+                url="https://www.youtube.com/watch?v=DBGoX7DON54&ab_channel=EthereumFoundation"
+                {...(isLargerThan800 ? { width: 640, height: 360 } : { width: 320, height: 180 })}
+              />
+
               <Link
                 href={`https://nftstorage.link/ipfs/${latestEpisode.episodeUri.substring(7)}`}
                 target="_blank"
               >
-                <Text>{latestEpisode.episodeUri.substring(0, 8)}</Text>
+                <Text>{latestEpisode.episodeUri.substring(0, 32)}</Text>
               </Link>
 
               <Link
