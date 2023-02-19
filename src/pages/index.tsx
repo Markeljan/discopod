@@ -7,19 +7,16 @@ export default function Home() {
   return (
     <Flex
       minH="full"
-      h="full"
+      h={{ base: "-moz-max-content", lg: "100vh" }}
       backgroundColor="black"
-      paddingX="10"
+      paddingX="100px"
+      paddingBottom="100px"
       gap={8}
       alignItems={{ base: "center", lg: "stretch" }}
       justifyContent="space-between"
       flexDirection="column"
     >
-      <Flex
-        justify="space-between"
-        flexDirection={{ base: "column", lg: "row" }}
-        gap={8}
-      >
+      <Flex justify="space-between" flexDirection={{ base: "column", lg: "row" }} gap={8}>
         <Flex
           gap={4}
           flexDirection="column"
@@ -42,13 +39,8 @@ export default function Home() {
           </Link>
         </Flex>
 
-        <Flex order={{ base: -1, lg: "initial" }}   justifyItems="center">
-          <Image
-            alt="discopod logo"
-            src="/discopodlogov0.svg"
-            width={300}
-            height={300}
-          />
+        <Flex order={{ base: -1, lg: "initial" }} justifyItems="center">
+          <Image alt="discopod logo" src="/discopodlogov0.svg" width={300} height={300} />
         </Flex>
 
         <Flex
