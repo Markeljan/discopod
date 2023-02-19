@@ -14,6 +14,22 @@ import {
 import { estimateL2GasCost, estimateTotalGasCost } from "@mantleio/sdk";
 import { BigNumber, Contract } from "ethers";
 
+import {
+  Box,
+  Button,
+  Flex,
+  FormControl,
+  FormLabel,
+  Heading,
+  Image,
+  Input,
+  Stack,
+  Text,
+  Textarea,
+} from "@chakra-ui/react";
+
+import ReactPlayer from "react-player";
+
 const NFT_STORAGE_TOKEN =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDc1NzI4OERlZTM2QUY3N0FjZjZEQ0YxQjBiMjY4QzQ2YjZjMGZhNzMiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY3NjE0NTA1OTA5NCwibmFtZSI6InBvZGNoYWluIn0.XjX9uNYAm-sQ4esJlTmgpK65zZ4LpyERfnsd2peOaWc";
 
@@ -126,7 +142,6 @@ const Pod = (props: any) => {
       `https://nftstorage.link/ipfs/${latestEpisode?.episodeUri?.substring(7)}`
     );
     const json = await response.json();
-    console.log("DATAA", json);
     setLatestEpisodeFile(json.external_url);
   };
   let metadata: any;
@@ -134,7 +149,6 @@ const Pod = (props: any) => {
     e.preventDefault();
     if (!imageFile || !mediaFile || !write) return;
     setUploadPending(true);
-    console.log(podcast);
 
     try {
       metadata = await client.store({
@@ -148,8 +162,6 @@ const Pod = (props: any) => {
     } catch (error) {
       console.error(error);
     }
-    console.log("meta", metadata);
-    console.log(`https://nftstorage.link/ipfs/${metadata?.url.substring(7)}`);
     setUploadPending(false);
     setMetadataUrl(`https://nftstorage.link/ipfs/${metadata?.url.substring(7)}`);
 
@@ -178,141 +190,183 @@ const Pod = (props: any) => {
   };
   console.log("podcastData:", podcastData);
   console.log("latestEpisode:", latestEpisode);
+
+  if (Object.keys(podcastData).length === 0)
+    return (
+      <Box bg="gray.100" h="100vh" p={6}>
+        <Stack maxW="6xl" w="full" mx="auto" p={6} spacing={6}>
+          <Box bg="primary.dark" p={6} rounded="lg" shadow="md">
+            <Heading size="lg" mb={6} fontWeight="bold">
+              Podcast Does not exist... Yet! Make it yourself!
+            </Heading>
+            <Button
+              bg="blue.500"
+              color="white"
+              p={2}
+              rounded="lg"
+              shadow="md"
+              onClick={() => router.push("/create")}
+            >
+              Create Podcast
+            </Button>
+          </Box>
+        </Stack>
+      </Box>
+    );
+
   return (
-    <div className=" bg-gray-100 p-6">
-      <div className="flex flex-col max-w-6xl w-full mx-auto p-6">
-        <div className="bg-primary.dark p-6 rounded-lg shadow-md">
-          {/* {podcastDataLoading && (
-            <>
-              <h2 className="text-2xl font-bold mb-6">
-                Podcast Does not exist... Yet! Make it yourself!
-              </h2>
-              <button
-                className=" bg-blue-500 text-white p-2 rounded-lg shadow-md"
-                onClick={() => router.push("/create")}
-              >
-                Create Podcast
-              </button>
-            </>
-          )} */}
-          <h2 className="text-2xl font-bold mb-6">{podcastData?.name?.toUpperCase()}</h2>
-
+    <Box bg="gray.100" h="-moz-max-content" p={6}>
+      <Stack maxW="6xl" w="full" mx="auto" p={6} spacing={6}>
+        <Box bg="primary.dark" p={6} rounded="lg" shadow="md">
+          <Heading size="xl" mb={6} fontWeight="bold">
+            {podcastData?.name?.toUpperCase()}
+          </Heading>
           {podcastMetadataObject ? (
-            <img src={podcastMetadataObject} width={50} height={50} />
+            <Flex w="100%" justifyContent="center">
+              <Image src={podcastMetadataObject} width={200} height={200} />
+            </Flex>
           ) : (
-            <div className="w-20 h-20 bg-gradient-to-r from-indigo-400 to-pink-400" />
+            <Box w={20} h={20} bgGradient="linear(to-r, indigo.400, pink.400)" />
           )}
-
-          <p>{podcastData?.description}</p>
-          <p>Topic: {podcastData?.topic}</p>
-          <p>{podcastData?.host?.substring(0, 8)}</p>
-        </div>
-        <div>
-          <h2 className="text-2xl font-bold mb-6">Episodes</h2>
+          <Text>{podcastData?.description}</Text>
+          <Text>Topic: {podcastData?.topic}</Text>
+          <Text>{podcastData?.host?.substring(0, 8)}</Text>
+        </Box>
+        <Box>
+          <Heading size="xl" mb={6} fontWeight="bold">
+            Episodes
+          </Heading>
           {latestEpisode && (
             <>
               <Link
                 href={`https://nftstorage.link/ipfs/${latestEpisode.episodeUri.substring(7)}`}
                 target="_blank"
               >
-                <p>{latestEpisode.episodeUri.substring(0, 8)}</p>
+                <Text>{latestEpisode.episodeUri.substring(0, 8)}</Text>
               </Link>
 
               <Link
                 href={`https://nftstorage.link/ipfs/${latestEpisodeFile.substring(7)}`}
                 target="_blank"
               >
-                <p>Download Link</p>
+                <Text>Download Link</Text>
               </Link>
             </>
           )}
-        </div>
-        <div hidden={!podcastData?.name || podcastData?.host !== address}>
-          <form onSubmit={handleSubmit} className="p-6 rounded-lg shadow-md">
-            <h2 className="text-2xl font-bold mb-6">Mint Next Episode</h2>
-            <div className="mb-4">
-              <label className="block font-medium mb-2">Episode title:</label>
-              <input
-                type="text"
-                required
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                className="w-full p-2 border border-gray-400 rounded-lg"
-              />
-            </div>
-
-            <div className="mb-4">
-              <label className="block font-medium mb-2">Description:</label>
-              <textarea
-                required
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                className="w-full p-2 h-32 border border-gray-400 rounded-lg"
-              ></textarea>
-            </div>
-
-            <div className="mb-4">
-              <label className="block font-medium mb-2">Collectible Value:</label>
-              <input
-                type="number"
-                required
-                value={collectibleValue}
-                onChange={(e) => setCollectibleValue(parseInt(e.target.value))}
-                className="w-full p-2 border border-gray-400 rounded-lg"
-              />
-            </div>
-
-            <div className="mb-4">
-              <label className="block font-medium mb-2">Thumbnail</label>
-              <div className="mb-4 ">
-                <input
-                  type="file"
+        </Box>
+        <Box hidden={!podcastData?.name || podcastData?.host !== address}>
+          <Box p={6} rounded="lg" shadow="md">
+            <form onSubmit={handleSubmit}>
+              <Heading size="xl" mb={6} fontWeight="bold">
+                Mint Next Episode
+              </Heading>
+              <FormControl mb={4}>
+                <FormLabel fontWeight="medium">Episode title:</FormLabel>
+                <Input
+                  type="text"
                   required
-                  onChange={(e) => setImageFile(e.target.files?.item(0) || null)}
-                  className="w-full p-2 border border-gray-400 rounded-lg"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  border="1px solid"
+                  borderColor="gray.400"
+                  borderRadius="lg"
+                  p={2}
                 />
-              </div>
-              <div className="mb-4">
-                <label className="block font-medium mb-2">Audio / Video</label>
-                <input
-                  type="file"
-                  required
-                  onChange={(e) => setMediaFile(e.target.files?.item(0) || null)}
-                  className="w-full p-2 border border-gray-400 rounded-lg"
-                />
-              </div>
+              </FormControl>
 
-              <div className="flex items-center w-full rounded-lg">
-                {
-                  <button
-                    disabled={uploadPending || mintPending}
-                    className="bg-violet-500 hover:bg-violet-700 text-white font-medium py-2 px-4 rounded-lg"
-                  >
-                    {metadataUrl && writeData
-                      ? "Mint Successful"
-                      : uploadPending
-                      ? "Uploading to IPFS..."
-                      : mintPending
-                      ? "Minting..."
-                      : "Mint"}
-                  </button>
-                }
-                {writeData && writeData.hash && (
-                  <div className="text-green-500">
-                    <Link
-                      href={`https://explorer.testnet.mantle.xyz/tx/${writeData.hash}`}
-                      target="_blank"
+              <FormControl mb={4}>
+                <FormLabel fontWeight="medium">Description:</FormLabel>
+                <Textarea
+                  required
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  border="1px solid"
+                  borderColor="gray.400"
+                  borderRadius="lg"
+                  p={2}
+                  h={32}
+                />
+              </FormControl>
+
+              <FormControl mb={4}>
+                <FormLabel fontWeight="medium">Collectible Value:</FormLabel>
+                <Input
+                  type="number"
+                  required
+                  value={collectibleValue}
+                  onChange={(e) => setCollectibleValue(parseInt(e.target.value))}
+                  border="1px solid"
+                  borderColor="gray.400"
+                  borderRadius="lg"
+                  p={2}
+                />
+              </FormControl>
+
+              <FormControl mb={4}>
+                <FormLabel fontWeight="medium">Thumbnail</FormLabel>
+                <Box mb={4}>
+                  <Input
+                    type="file"
+                    required
+                    onChange={(e) => setImageFile(e.target.files?.item(0) || null)}
+                    border="1px solid"
+                    borderColor="gray.400"
+                    borderRadius="lg"
+                    p={2}
+                  />
+                </Box>
+                <Box mb={4}>
+                  <FormLabel fontWeight="medium">Audio / Video</FormLabel>
+                  <Input
+                    type="file"
+                    required
+                    onChange={(e) => setMediaFile(e.target.files?.item(0) || null)}
+                    border="1px solid"
+                    borderColor="gray.400"
+                    borderRadius="lg"
+                    p={2}
+                  />
+                </Box>
+
+                <Stack direction="row" alignItems="center" w="full" rounded="lg">
+                  {
+                    <Button
+                      disabled={uploadPending || mintPending}
+                      bg="Purple"
+                      _hover={{ bg: "violet.700" }}
+                      color="White"
+                      type="submit"
+                      fontWeight="medium"
+                      py={2}
+                      px={4}
+                      rounded="lg"
                     >
-                      <p>Tx Hash: {writeData.hash.substring(0, 12)}</p>
-                    </Link>
-                  </div>
-                )}
-              </div>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
+                      {metadataUrl && writeData
+                        ? "Mint Successful"
+                        : uploadPending
+                        ? "Uploading to IPFS..."
+                        : mintPending
+                        ? "Minting..."
+                        : "Mint"}
+                    </Button>
+                  }
+                  {writeData && writeData.hash && (
+                    <Box color="green.500">
+                      <Link
+                        href={`https://explorer.testnet.mantle.xyz/tx/${writeData.hash}`}
+                        target="_blank"
+                      >
+                        <Text>Tx Hash: {writeData.hash.substring(0, 12)}</Text>
+                      </Link>
+                    </Box>
+                  )}
+                </Stack>
+              </FormControl>
+            </form>
+          </Box>
+        </Box>
+      </Stack>
+    </Box>
   );
 };
 
