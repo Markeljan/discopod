@@ -10,6 +10,11 @@ Build a personal brand through engaging community discourse.
 
 ## Project Description
 This project was hacked together over a 3 day weekend from February 9-12. Built on Next.js and Foundry we used Solidity to build the smart contract, and Typescript to create the website.
+
+
+Diagram: https://excalidraw.com/#room=5e0054fc35def7c5c4e9,BRXN4Y9CyLUH7DcANSb_Ng
+
+
 ## Getting Started
 
 ### Client
