@@ -199,7 +199,7 @@ const Pod = (props: any) => {
       collectibleValue,
       podcastData?.guest,
       {
-        gasLimit: 100000000,
+        gasLimit: 10000000,
       }
     );
 
