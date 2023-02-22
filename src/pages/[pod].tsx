@@ -202,7 +202,7 @@ const Pod = (props: any) => {
         <Stack maxW="6xl" w="full" mx="auto" p={6} spacing={6}>
           <Box bg="primary.dark" p={6} rounded="lg" shadow="md">
             <Heading size="lg" mb={6} fontWeight="bold">
-              Podcast Does not exist... Yet! Make it yourself!
+              Loading...
             </Heading>
             <Button
               bg="blue.500"
@@ -212,7 +212,7 @@ const Pod = (props: any) => {
               shadow="md"
               onClick={() => router.push("/create")}
             >
-              Create Podcast
+              Make it yourself!
             </Button>
           </Box>
         </Stack>
@@ -222,7 +222,7 @@ const Pod = (props: any) => {
   return (
     <Box bg="gray.100" h="-moz-max-content" p={6}>
       <Stack maxW="6xl" w="full" mx="auto" p={6} spacing={6}>
-        <Box bg="primary.dark" p={6} rounded="lg" shadow="md">
+        <Stack bg="primary.dark" p={6} rounded="lg" shadow="md" gap={6}>
           <Heading size="xl" mb={6} fontWeight="bold">
             {podcastData?.name?.toUpperCase()}
           </Heading>
@@ -234,9 +234,11 @@ const Pod = (props: any) => {
             <Box w={20} h={20} bgGradient="linear(to-r, indigo.400, pink.400)" />
           )}
           <Text>{podcastData?.description}</Text>
-          <Text>Topic: {podcastData?.topic}</Text>
-          <Text>{podcastData?.host?.substring(0, 8)}</Text>
-        </Box>
+          <Stack>
+            <Text>Topic: {podcastData?.topic}</Text>
+            <Text>{podcastData?.host?.substring(0, 8)}</Text>
+          </Stack>
+        </Stack>
         <Box>
           <Heading size="xl" mb={6} fontWeight="bold">
             Episodes
