@@ -12,7 +12,7 @@ import {
   useSigner,
 } from "wagmi";
 import { estimateTotalGasCost } from "@mantleio/sdk";
-import { BigNumber, Contract } from "ethers";
+import { BigNumber, Contract, ethers } from "ethers";
 import { isAudioUrl, isVideoUrl } from "@/utils/helpers";
 import {
   Box,
@@ -74,7 +74,7 @@ const Pod = (props: any) => {
   const client = new NFTStorage({ token: NFT_STORAGE_TOKEN });
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [collectibleValue, setCollectibleValue] = useState(0);
+  const [collectibleValue, setCollectibleValue] = useState<BigNumber>(0);
   const [uploadPending, setUploadPending] = useState(false);
   const [mintPending, setMintPending] = useState(false);
   const [imageFile, setImageFile] = useState<File | null>(null);
@@ -115,7 +115,9 @@ const Pod = (props: any) => {
       setPodcastData(podcast);
     }
     getMetadata(podcast?.metadataUri);
-    if (latestEpisode?.episodeUri) getEpisodeLink(latestEpisode?.episodeUri);
+    if (latestEpisode?.episodeUri) {
+      getEpisodeLink(latestEpisode?.episodeUri);
+    }
   }, [podcast, latestEpisode]);
 
   const getMetadata = async (podcastMetadataUri: string) => {
@@ -137,7 +139,15 @@ const Pod = (props: any) => {
 
     setLatestEpisodeFile(episodeExternalUrl.url);
   };
+  const handleCollectibleValueChange = (e: any) => {
+    // convert e.target.value number from gwei to ether
+    const ethersToWei = ethers.utils.parseUnits(e.target.value, "ether");
+    console.log("ethersToWei: ", ethersToWei);
+    console.log(ethers.utils.parseEther(e.target.value));
+    setCollectibleValue(ethersToWei);
+  };
   let metadata: any;
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!imageFile || !mediaFile || !write) return;
@@ -165,19 +175,31 @@ const Pod = (props: any) => {
     setMintPending(true);
 
     let gasCost = BigNumber.from(10000000);
+
     try {
       gasCost = await estimateTotalGasCost(provider, config);
     } catch (error) {
       console.error(error);
     }
     const CONTRACT = new Contract(DISCOPOD_ADDRESS, DISCOPOD_ABI, signer!);
+    // const gasEstimate = await CONTRACT.addEpisode(podcastId,
+    //   metadata?.url,
+    //   collectibleValue,
+    //   podcastData?.guest,).estimateGas()
+    const gasEstimate = await CONTRACT.estimateGas.addEpisode(
+      podcastId,metadata?.url,
+      collectibleValue,
+      podcastData?.guest
+    );
+    console.log("gasEstimate: ", gasEstimate);
+
     const tx = await CONTRACT.addEpisode(
       podcastId,
       metadata?.url,
       collectibleValue,
       podcastData?.guest,
       {
-        gasLimit: 10000000,
+        gasLimit: 100000000,
       }
     );
 
@@ -212,8 +234,8 @@ const Pod = (props: any) => {
   return (
     <Box bg="gray.100" h="-moz-max-content" p={6}>
       <Stack maxW="6xl" w="full" mx="auto" p={6} spacing={6}>
-        <Stack bg="primary.dark" p={6} rounded="lg" shadow="md" gap={6}>
-          <Heading size="xl" mb={6} fontWeight="bold">
+        <Stack bg="primary.dark" p={6} rounded="lg" shadow="md" gap={2}>
+          <Heading size="xl" fontWeight="bold">
             {podcastData?.name?.toUpperCase()}
           </Heading>
           {podcastMetadataObject ? (
@@ -221,50 +243,58 @@ const Pod = (props: any) => {
               <Image src={podcastMetadataObject} width={200} height={200} />
             </Flex>
           ) : (
-            <Box
+            <Flex
+              borderRadius="2xl"
+              bgGradient="linear(to-br, blue.400, purple.500, pink.400)"
               w={20}
               h={20}
-              bgGradient="linear(to-r, indigo.400, pink.400)"
             />
           )}
           <Text>{podcastData?.description}</Text>
           <Stack>
             <Text>Topic: {podcastData?.topic}</Text>
-            <Text>{podcastData?.host?.substring(0, 8)}</Text>
+            <Text _hover={{ textDecoration: "underline" }}>
+              Host:{" "}
+              <Link
+                href={`https://explorer.testnet.mantle.xyz/address/${podcastData?.host}`}
+              >
+                {podcastData?.host}
+              </Link>
+            </Text>
           </Stack>
         </Stack>
         <Box>
-          <Heading size="xl" mb={6} fontWeight="bold">
-            Episodes
-          </Heading>
-          {latestEpisode && (
+          {latestEpisodeFile && (
             <>
+              <Heading size="xl" mb={6} fontWeight="bold">
+                Latest Episode
+              </Heading>
+              {isAudioUrl(latestEpisodeFile) ? (
+                <audio src={latestEpisodeFile} controls />
+              ) : isVideoUrl(latestEpisodeFile) ? (
+                <video src={latestEpisodeFile} controls />
+              ) : (
+                <>File format not supported</>
+              )}
               {isLargerThan800}
               {/* <ReactPlayer
                 url={latestEpisodeFile}
                 {...(isLargerThan800 ? { width: 640, height: 360 } : { width: 320, height: 180 })}
               /> */}
 
-              <Link
+              {/* <Link
                 href={`https://nftstorage.link/ipfs/${latestEpisode.episodeUri.substring(
                   7
                 )}`}
                 target="_blank"
               >
                 <Text>{latestEpisode.episodeUri.substring(0, 32)}</Text>
-              </Link>
+              </Link> */}
 
               <Link href={latestEpisodeFile} target="_blank">
                 <Text>Download Link, {latestEpisodeFile}</Text>
               </Link>
             </>
-          )}
-          {isAudioUrl(latestEpisodeFile) ? (
-            <audio src={latestEpisodeFile} controls />
-          ) : isVideoUrl(latestEpisodeFile) ? (
-            <video src={latestEpisodeFile} controls />
-          ) : (
-            <>File format not supported</>
           )}
         </Box>
 
@@ -303,14 +333,15 @@ const Pod = (props: any) => {
               </FormControl>
 
               <FormControl mb={4}>
-                <FormLabel fontWeight="medium">Collectible Value:</FormLabel>
+                <FormLabel fontWeight="medium">
+                  Collectible Mint Price:
+                </FormLabel>
                 <Input
-                  type="number"
+                  // type="number"
                   required
-                  value={collectibleValue}
-                  onChange={(e) =>
-                    setCollectibleValue(parseInt(e.target.value))
-                  }
+                  // value={(e)=>e.target.value)}
+                  onChange={handleCollectibleValueChange}
+                  placeholder="0.1 ether"
                   border="1px solid"
                   borderColor="gray.400"
                   borderRadius="lg"
