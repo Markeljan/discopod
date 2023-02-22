@@ -11,9 +11,9 @@ import {
   useProvider,
   useSigner,
 } from "wagmi";
-import { estimateL2GasCost, estimateTotalGasCost } from "@mantleio/sdk";
+import { estimateTotalGasCost } from "@mantleio/sdk";
 import { BigNumber, Contract } from "ethers";
-
+import { isAudioUrl, isVideoUrl } from "@/utils/helpers";
 import {
   Box,
   Button,
@@ -28,7 +28,6 @@ import {
   Textarea,
   useMediaQuery,
 } from "@chakra-ui/react";
-
 import ReactPlayer from "react-player";
 
 const NFT_STORAGE_TOKEN =
@@ -52,20 +51,11 @@ export async function getStaticProps(context: { params: { pod: any } }) {
   };
 }
 
-const DISCOPOD = {
-  address: DISCOPOD_ADDRESS,
-  abi: DISCOPOD_ABI,
-};
-
 const Pod = (props: any) => {
   const router = useRouter();
 
   const { podNormal: pod } = props;
-  const {
-    data: podcastId,
-    isError,
-    isLoading,
-  } = useContractRead({
+  const { data: podcastId } = useContractRead({
     address: DISCOPOD_ADDRESS,
     abi: DISCOPOD_ABI,
     functionName: "podcastNameToId",
@@ -73,13 +63,12 @@ const Pod = (props: any) => {
   });
   const { address } = useAccount();
 
-  const { data: podcast, isLoading: podcastDataLoading }: { data: any; isLoading: boolean } =
-    useContractRead({
-      address: DISCOPOD_ADDRESS,
-      abi: DISCOPOD_ABI,
-      functionName: "podcastIdToPodcast",
-      args: [podcastId],
-    });
+  const { data: podcast }: { data: any; isLoading: boolean } = useContractRead({
+    address: DISCOPOD_ADDRESS,
+    abi: DISCOPOD_ABI,
+    functionName: "podcastIdToPodcast",
+    args: [podcastId],
+  });
   const [podcastData, setPodcastData] = useState<any>({});
 
   const client = new NFTStorage({ token: NFT_STORAGE_TOKEN });
@@ -94,8 +83,6 @@ const Pod = (props: any) => {
   const [podcastMetadataObject, setPodcastMetadataObject] = useState("");
   const provider = useProvider();
   const { data: signer } = useSigner();
-  const [gasPrice, setGasPrice] = useState<BigNumber>(BigNumber.from(53000));
-  const [totalGasCost, setTotalGasCost] = useState<BigNumber>(BigNumber.from(1000000));
   const [latestEpisodeFile, setLatestEpisodeFile] = useState<any>("");
   const [isLargerThan800] = useMediaQuery("(min-width: 800px)", {
     ssr: true,
@@ -114,12 +101,7 @@ const Pod = (props: any) => {
       { gasLimit: 10000000, gasPrice: 1 },
     ],
   });
-  const {
-    data: writeData,
-    isLoading: writeIsLoading,
-    isSuccess: writeIsSuccess,
-    write,
-  } = useContractWrite(config);
+  const { data: writeData, write } = useContractWrite(config);
 
   const { data: latestEpisode }: { data: any } = useContractRead({
     address: DISCOPOD_ADDRESS,
@@ -139,7 +121,9 @@ const Pod = (props: any) => {
   const getMetadata = async (podcastMetadataUri: string) => {
     const response = await fetch(podcastMetadataUri);
     const json = await response.json();
-    setPodcastMetadataObject(`https://nftstorage.link/ipfs/${json.image.substring(7)}`);
+    setPodcastMetadataObject(
+      `https://nftstorage.link/ipfs/${json.image.substring(7)}`
+    );
   };
 
   const getEpisodeLink = async (episodeMetadataUri: string) => {
@@ -147,7 +131,11 @@ const Pod = (props: any) => {
       `https://nftstorage.link/ipfs/${latestEpisode?.episodeUri?.substring(7)}`
     );
     const json = await response.json();
-    setLatestEpisodeFile(json.external_url);
+    const episodeExternalUrl = await fetch(
+      `https://nftstorage.link/ipfs/${json.external_url.substring(7)}`
+    );
+
+    setLatestEpisodeFile(episodeExternalUrl.url);
   };
   let metadata: any;
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -159,7 +147,9 @@ const Pod = (props: any) => {
       metadata = await client.store({
         name: title,
         description: description,
-        image: new File([imageFile], imageFile.name.replace(/\s/g, ""), { type: imageFile.type }),
+        image: new File([imageFile], imageFile.name.replace(/\s/g, ""), {
+          type: imageFile.type,
+        }),
         external_url: new File([mediaFile], mediaFile.name.replace(/\s/g, ""), {
           type: mediaFile.type,
         }),
@@ -168,7 +158,9 @@ const Pod = (props: any) => {
       console.error(error);
     }
     setUploadPending(false);
-    setMetadataUrl(`https://nftstorage.link/ipfs/${metadata?.url.substring(7)}`);
+    setMetadataUrl(
+      `https://nftstorage.link/ipfs/${metadata?.url.substring(7)}`
+    );
 
     setMintPending(true);
 
@@ -193,8 +185,6 @@ const Pod = (props: any) => {
 
     setMintPending(false);
   };
-  console.log("podcastData:", podcastData);
-  console.log("latestEpisode:", latestEpisode);
 
   if (Object.keys(podcastData).length === 0)
     return (
@@ -231,7 +221,11 @@ const Pod = (props: any) => {
               <Image src={podcastMetadataObject} width={200} height={200} />
             </Flex>
           ) : (
-            <Box w={20} h={20} bgGradient="linear(to-r, indigo.400, pink.400)" />
+            <Box
+              w={20}
+              h={20}
+              bgGradient="linear(to-r, indigo.400, pink.400)"
+            />
           )}
           <Text>{podcastData?.description}</Text>
           <Stack>
@@ -246,27 +240,34 @@ const Pod = (props: any) => {
           {latestEpisode && (
             <>
               {isLargerThan800}
-              <ReactPlayer
-                url="https://www.youtube.com/watch?v=DBGoX7DON54&ab_channel=EthereumFoundation"
+              {/* <ReactPlayer
+                url={latestEpisodeFile}
                 {...(isLargerThan800 ? { width: 640, height: 360 } : { width: 320, height: 180 })}
-              />
+              /> */}
 
               <Link
-                href={`https://nftstorage.link/ipfs/${latestEpisode.episodeUri.substring(7)}`}
+                href={`https://nftstorage.link/ipfs/${latestEpisode.episodeUri.substring(
+                  7
+                )}`}
                 target="_blank"
               >
                 <Text>{latestEpisode.episodeUri.substring(0, 32)}</Text>
               </Link>
 
-              <Link
-                href={`https://nftstorage.link/ipfs/${latestEpisodeFile.substring(7)}`}
-                target="_blank"
-              >
-                <Text>Download Link</Text>
+              <Link href={latestEpisodeFile} target="_blank">
+                <Text>Download Link, {latestEpisodeFile}</Text>
               </Link>
             </>
           )}
+          {isAudioUrl(latestEpisodeFile) ? (
+            <audio src={latestEpisodeFile} controls />
+          ) : isVideoUrl(latestEpisodeFile) ? (
+            <video src={latestEpisodeFile} controls />
+          ) : (
+            <>File format not supported</>
+          )}
         </Box>
+
         <Box hidden={!podcastData?.name || podcastData?.host !== address}>
           <Box p={6} rounded="lg" shadow="md">
             <form onSubmit={handleSubmit}>
@@ -307,7 +308,9 @@ const Pod = (props: any) => {
                   type="number"
                   required
                   value={collectibleValue}
-                  onChange={(e) => setCollectibleValue(parseInt(e.target.value))}
+                  onChange={(e) =>
+                    setCollectibleValue(parseInt(e.target.value))
+                  }
                   border="1px solid"
                   borderColor="gray.400"
                   borderRadius="lg"
@@ -321,7 +324,9 @@ const Pod = (props: any) => {
                   <Input
                     type="file"
                     required
-                    onChange={(e) => setImageFile(e.target.files?.item(0) || null)}
+                    onChange={(e) =>
+                      setImageFile(e.target.files?.item(0) || null)
+                    }
                     border="1px solid"
                     borderColor="gray.400"
                     borderRadius="lg"
@@ -333,7 +338,9 @@ const Pod = (props: any) => {
                   <Input
                     type="file"
                     required
-                    onChange={(e) => setMediaFile(e.target.files?.item(0) || null)}
+                    onChange={(e) =>
+                      setMediaFile(e.target.files?.item(0) || null)
+                    }
                     border="1px solid"
                     borderColor="gray.400"
                     borderRadius="lg"
@@ -341,7 +348,12 @@ const Pod = (props: any) => {
                   />
                 </Box>
 
-                <Stack direction="row" alignItems="center" w="full" rounded="lg">
+                <Stack
+                  direction="row"
+                  alignItems="center"
+                  w="full"
+                  rounded="lg"
+                >
                   {
                     <Button
                       disabled={uploadPending || mintPending}
