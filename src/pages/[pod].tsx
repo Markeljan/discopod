@@ -74,7 +74,7 @@ const Pod = (props: any) => {
   const client = new NFTStorage({ token: NFT_STORAGE_TOKEN });
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [collectibleValue, setCollectibleValue] = useState<BigNumber>(0);
+  const [collectibleValue, setCollectibleValue] = useState<BigNumber>();
   const [uploadPending, setUploadPending] = useState(false);
   const [mintPending, setMintPending] = useState(false);
   const [imageFile, setImageFile] = useState<File | null>(null);
@@ -141,9 +141,7 @@ const Pod = (props: any) => {
   };
   const handleCollectibleValueChange = (e: any) => {
     // convert e.target.value number from gwei to ether
-    const ethersToWei = ethers.utils.parseUnits(e.target.value, "ether");
-    console.log("ethersToWei: ", ethersToWei);
-    console.log(ethers.utils.parseEther(e.target.value));
+    const ethersToWei = ethers.utils.parseUnits(e.target.value, "ether")
     setCollectibleValue(ethersToWei);
   };
   let metadata: any;
