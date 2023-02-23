@@ -8,7 +8,6 @@ import {
   useContractRead,
   useContractWrite,
   usePrepareContractWrite,
-  useProvider,
   useSigner,
 } from "wagmi";
 import { BigNumber, Contract, ethers } from "ethers";
@@ -27,6 +26,7 @@ import {
   Textarea,
   useMediaQuery,
 } from "@chakra-ui/react";
+import { AddEpisodeModal } from "@/components/AddEpisodeModal";
 
 const NFT_STORAGE_TOKEN =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDc1NzI4OERlZTM2QUY3N0FjZjZEQ0YxQjBiMjY4QzQ2YjZjMGZhNzMiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY3NjE0NTA1OTA5NCwibmFtZSI6InBvZGNoYWluIn0.XjX9uNYAm-sQ4esJlTmgpK65zZ4LpyERfnsd2peOaWc";
@@ -81,6 +81,7 @@ const Pod = (props: any) => {
   const [podcastMetadataObject, setPodcastMetadataObject] = useState("");
   const { data: signer } = useSigner();
   const [latestEpisodeFile, setLatestEpisodeFile] = useState<any>("");
+
   const [isLargerThan800] = useMediaQuery("(min-width: 800px)", {
     ssr: true,
     fallback: false, // return false on the server, and re-evaluate on the client side
@@ -137,9 +138,10 @@ const Pod = (props: any) => {
     setLatestEpisodeFile(episodeExternalUrl.url);
   };
   const handleCollectibleValueChange = (e: any) => {
-    const ethersToWei = ethers.utils.parseUnits(e.target.value, "ether")
+    const ethersToWei = ethers.utils.parseUnits(e.target.value, "ether");
     setCollectibleValue(ethersToWei);
   };
+  
   let metadata: any;
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -208,28 +210,27 @@ const Pod = (props: any) => {
     );
 
   return (
-    <Box bg="gray.100" h="-moz-max-content" p={6}>
+    <Box bg="blackAlpha.300" h="calc(100vh)" p={6} >
       <Stack maxW="6xl" w="full" mx="auto" p={6} spacing={6}>
-        <Stack bg="primary.dark" p={6} rounded="lg" shadow="md" gap={2}>
-          <Heading size="xl" fontWeight="bold">
-            {podcastData?.name?.toUpperCase()}
-          </Heading>
+        <Stack gap={2} direction="row">
           {podcastMetadataObject ? (
-            <Flex w="100%" justifyContent="center">
-              <Image src={podcastMetadataObject} width={200} height={200} />
-            </Flex>
+            <Image src={podcastMetadataObject} width={50} height={50} />
           ) : (
             <Flex
               borderRadius="2xl"
               bgGradient="linear(to-br, blue.400, purple.500, pink.400)"
-              w={20}
-              h={20}
+              w={50}
+              h={50}
             />
           )}
+          <Heading size="xl" fontWeight="bold" >
+            {podcastData?.name?.toUpperCase()}
+          </Heading>
+        </Stack>
+        <Stack>
           <Text>{podcastData?.description}</Text>
           <Stack>
-            <Text>Topic: {podcastData?.topic}</Text>
-            <Text _hover={{ textDecoration: "underline" }}>
+              <Text _hover={{ textDecoration: "underline" }}>
               Host:{" "}
               <Link
                 href={`https://explorer.testnet.mantle.xyz/address/${podcastData?.host}`}
@@ -237,6 +238,8 @@ const Pod = (props: any) => {
                 {podcastData?.host}
               </Link>
             </Text>
+            <Text>Topic: {podcastData?.topic}</Text>
+          
           </Stack>
         </Stack>
         <Box>
@@ -253,7 +256,6 @@ const Pod = (props: any) => {
                 <>File format not supported</>
               )}
               {isLargerThan800}
-        
 
               <Link href={latestEpisodeFile} target="_blank">
                 <Text>Download Link, {latestEpisodeFile}</Text>
@@ -263,7 +265,8 @@ const Pod = (props: any) => {
         </Box>
 
         <Box hidden={!podcastData?.name || podcastData?.host !== address}>
-          <Box p={6} rounded="lg" shadow="md">
+          <AddEpisodeModal podcastId={podcastId} podcastPreviousGuest={podcastData.guest}/>
+          {/* <Box p={6} rounded="lg" shadow="md">
             <form onSubmit={handleSubmit}>
               <Heading size="xl" mb={6} fontWeight="bold">
                 Mint Next Episode
@@ -381,7 +384,7 @@ const Pod = (props: any) => {
                 </Stack>
               </FormControl>
             </form>
-          </Box>
+          </Box> */}
         </Box>
       </Stack>
     </Box>
