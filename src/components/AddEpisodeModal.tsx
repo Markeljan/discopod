@@ -41,7 +41,7 @@ export const AddEpisodeModal = ({ podcastId, podcastPreviousGuest }: Props) => {
   const [metadataUrl, setMetadataUrl] = useState("");
   const [uploadPending, setUploadPending] = useState(false);
   const [mintPending, setMintPending] = useState(false);
-  const [currentError, setCurrentError] = useState<Error>(null);
+  const [currentError, setCurrentError] = useState<any | null>();
   const client = new NFTStorage({ token: NFT_STORAGE_TOKEN });
 
   const { config } = usePrepareContractWrite({
