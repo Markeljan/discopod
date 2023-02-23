@@ -11,7 +11,6 @@ import {
   useProvider,
   useSigner,
 } from "wagmi";
-import { estimateTotalGasCost } from "@mantleio/sdk";
 import { BigNumber, Contract, ethers } from "ethers";
 import { isAudioUrl, isVideoUrl } from "@/utils/helpers";
 import {
@@ -28,7 +27,6 @@ import {
   Textarea,
   useMediaQuery,
 } from "@chakra-ui/react";
-import ReactPlayer from "react-player";
 
 const NFT_STORAGE_TOKEN =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDc1NzI4OERlZTM2QUY3N0FjZjZEQ0YxQjBiMjY4QzQ2YjZjMGZhNzMiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY3NjE0NTA1OTA5NCwibmFtZSI6InBvZGNoYWluIn0.XjX9uNYAm-sQ4esJlTmgpK65zZ4LpyERfnsd2peOaWc";
@@ -81,7 +79,6 @@ const Pod = (props: any) => {
   const [mediaFile, setMediaFile] = useState<File | null>(null);
   const [metadataUrl, setMetadataUrl] = useState("");
   const [podcastMetadataObject, setPodcastMetadataObject] = useState("");
-  const provider = useProvider();
   const { data: signer } = useSigner();
   const [latestEpisodeFile, setLatestEpisodeFile] = useState<any>("");
   const [isLargerThan800] = useMediaQuery("(min-width: 800px)", {
@@ -140,7 +137,6 @@ const Pod = (props: any) => {
     setLatestEpisodeFile(episodeExternalUrl.url);
   };
   const handleCollectibleValueChange = (e: any) => {
-    // convert e.target.value number from gwei to ether
     const ethersToWei = ethers.utils.parseUnits(e.target.value, "ether")
     setCollectibleValue(ethersToWei);
   };
@@ -171,25 +167,7 @@ const Pod = (props: any) => {
     );
 
     setMintPending(true);
-
-    let gasCost = BigNumber.from(10000000);
-
-    try {
-      gasCost = await estimateTotalGasCost(provider, config);
-    } catch (error) {
-      console.error(error);
-    }
     const CONTRACT = new Contract(DISCOPOD_ADDRESS, DISCOPOD_ABI, signer!);
-    // const gasEstimate = await CONTRACT.addEpisode(podcastId,
-    //   metadata?.url,
-    //   collectibleValue,
-    //   podcastData?.guest,).estimateGas()
-    const gasEstimate = await CONTRACT.estimateGas.addEpisode(
-      podcastId,metadata?.url,
-      collectibleValue,
-      podcastData?.guest
-    );
-    console.log("gasEstimate: ", gasEstimate);
 
     const tx = await CONTRACT.addEpisode(
       podcastId,
@@ -275,19 +253,7 @@ const Pod = (props: any) => {
                 <>File format not supported</>
               )}
               {isLargerThan800}
-              {/* <ReactPlayer
-                url={latestEpisodeFile}
-                {...(isLargerThan800 ? { width: 640, height: 360 } : { width: 320, height: 180 })}
-              /> */}
-
-              {/* <Link
-                href={`https://nftstorage.link/ipfs/${latestEpisode.episodeUri.substring(
-                  7
-                )}`}
-                target="_blank"
-              >
-                <Text>{latestEpisode.episodeUri.substring(0, 32)}</Text>
-              </Link> */}
+        
 
               <Link href={latestEpisodeFile} target="_blank">
                 <Text>Download Link, {latestEpisodeFile}</Text>
@@ -335,9 +301,7 @@ const Pod = (props: any) => {
                   Collectible Mint Price:
                 </FormLabel>
                 <Input
-                  // type="number"
                   required
-                  // value={(e)=>e.target.value)}
                   onChange={handleCollectibleValueChange}
                   placeholder="0.1 ether"
                   border="1px solid"
